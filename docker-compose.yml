@@ -1,30 +1,142 @@
-version: '3.8'
+# proyek BI kelompok 7 KBA
+#
+# Arsitektur:
+#   postgres    — Database Odoo + metadata Metabase
+#   odoo        — ERP (modul sales, purchase, inventory)
+#   clickhouse  — Data Warehouse: Bronze, Silver, Gold
+#   app         — ETL Python 
+#   dbt         — Transformasi dbt 
+#   metabase    — Dashboard BI 
+#
+# Urutan penggunaan:
+#   1. docker compose up -d
+#   2. ...
 
 services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: trialproyek_postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       ${PG_DB:-postgres}
+      POSTGRES_USER:     ${PG_USER:-odoo}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-odoo}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./data/init:/docker-entrypoint-initdb.d:ro
+      - ./data/dumps:/dumps:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  
+  odoo_filestore_init:
+    image: alpine:3.20
+    container_name: trialproyek_odoo_filestore_init
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./data/filestore_odoo:/backup:ro
+    command: >
+      sh -lc "
+        mkdir -p /var/lib/odoo/filestore/odoo &&
+        # Kalau backup mengandung top-level 'odoo' folder, copy kontennya.
+        if [ -d /backup/odoo ]; then
+          echo 'Menyalin filestore dari /backup/odoo ...' &&
+          rm -rf /var/lib/odoo/filestore/odoo &&
+          cp -a /backup/odoo/. /var/lib/odoo/filestore/odoo &&
+          echo 'Filestore copy selesai.';
+        # Kalau backup mengandung hash directories (00,02,...), copy ke filestore.
+        elif ls -A /backup >/dev/null 2>&1; then
+          echo 'Menyalin filestore dari /backup ...' &&
+          rm -rf /var/lib/odoo/filestore/odoo &&
+          cp -a /backup/. /var/lib/odoo/filestore/odoo &&
+          echo 'Filestore copy selesai.';
+        else
+          echo 'WARNING: /backup kosong atau tidak berisi Odoo filestore; skipping';
+        fi
+      "
+
+  odoo:
+    image: odoo:17.0
+    container_name: trialproyek_odoo
+    ports:
+      - "8069:8069"
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      odoo_filestore_init:
+        condition: service_completed_successfully
+    environment:
+      - HOST=postgres
+      - USER=${PG_USER:-odoo}
+      - PASSWORD=${PG_PASSWORD:-odoo}
+    volumes:
+      - odoo_data:/var/lib/odoo
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8069/web/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
   clickhouse:
-    image: clickhouse/clickhouse-server:latest
-    container_name: clickhouse_kba
+    image: clickhouse/clickhouse-server:24.3
+    container_name: trialproyek_clickhouse
+    restart: unless-stopped
     ports:
       - "8123:8123"
-      - "9000:9000"
+      - "9000:9000" 
     environment:
-      - CLICKHOUSE_USER=default
-      - CLICKHOUSE_PASSWORD=kba_admin
+      CLICKHOUSE_DB:                      default
+      CLICKHOUSE_USER:                    ${CH_USER:-default}
+      CLICKHOUSE_PASSWORD:                ${CH_PASSWORD:-}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
     volumes:
       - clickhouse_data:/var/lib/clickhouse
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8123/ping | grep -q Ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  postgres_odoo:
-      image: postgres:15
-      container_name: postgres_kba
-      ports:
-        - "5433:5432"
-      environment:
-        - POSTGRES_USER=odoo_admin
-        - POSTGRES_PASSWORD=kba_rahasia
-        - POSTGRES_DB=odoo_dummy
-      volumes:
-        - postgres_odoo_data_baru:/var/lib/postgresql/data
+  metabase:
+    build:
+      context: .
+      dockerfile: Dockerfile.metabase
+    container_name: trialproyek_metabase
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    environment:
+      MB_DB_TYPE:   postgres
+      MB_DB_DBNAME: ${PG_DB:-postgres}
+      MB_DB_PORT:   "5432"
+      MB_DB_USER:   ${PG_USER:-odoo}
+      MB_DB_PASS:   ${PG_PASSWORD:-odoo}
+      MB_DB_HOST:   postgres
+    volumes:
+      - metabase_data:/metabase-data
 
 volumes:
+  postgres_data:
+    name: trialproyek_postgres_data
   clickhouse_data:
-  postgres_odoo_data_baru:
+    name: trialproyek_clickhouse_data
+  metabase_data:
+    name: trialproyek_metabase_data
+  odoo_data:
+    name: trialproyek_odoo_data
+
+networks:
+  default:
+    name: trialproyek_network
