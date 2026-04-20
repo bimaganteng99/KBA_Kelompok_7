@@ -18,9 +18,11 @@ Jalankan kode berikut untuk melakukan clone repository.
 ```
 git clone https://github.com/bimaganteng99/KBA_Kelompok_7.git
 ```
+### Buat file .env
+Buat file `.env`, lalu salin isi file `.env.example` ke dalamnya
 
 ### Jalankan Docker Compose
-Pastikan repositori sudah di-clone, lalu jalankan kode berikut.
+Pastikan repositori sudah di-clone dan file `.env` sudah dibuat, lalu jalankan kode berikut.
 ```
 # bersihkan container jika sudah pernah menjalankan compose up sebelumnya
 docker compose down -v
@@ -30,4 +32,10 @@ docker compose up -d
 Pastikan semua service berhasil berjalan.
 Buka odoo di [localhost:8069](http://localhost:8069/web/login)
 
+Login dengan menggunakan kredensial berikut
+```
+email    : admin@kba7.com 
+password : adminkba7
+```
+Jika instalasi berhasil, modul Purchase, Inventory, dan Sales sudah terpasang dan berisi data.
 
