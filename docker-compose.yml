@@ -4,8 +4,6 @@
 #   postgres    — Database Odoo + metadata Metabase
 #   odoo        — ERP (modul sales, purchase, inventory)
 #   clickhouse  — Data Warehouse: Bronze, Silver, Gold
-#   app         — ETL Python 
-#   dbt         — Transformasi dbt 
 #   metabase    — Dashboard BI 
 #
 # Urutan penggunaan:
