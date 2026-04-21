@@ -1,44 +1,53 @@
 import pandas as pd
+import psycopg2
 from clickhouse_driver import Client
+import warnings
 
-# 1. Buka Koneksi ke ClickHouse (yang sudah jalan di Docker)
-# Kita pakai port 9000 sesuai dengan konfigurasi docker-compose kamu
-client = Client(host='localhost', port=9000, user='default', password='kba_admin')
+# Matikan warning Pandas agar terminalmu tetap bersih
+warnings.filterwarnings('ignore')
 
-# 2. Bikin Database untuk Layer Bronze
-client.execute('CREATE DATABASE IF NOT EXISTS kba_bronze')
+# --- 1. KONEKSI ---
+pg_conn = psycopg2.connect(
+    host="127.0.0.1", port=5433, database="odoo", user="odoo", password="odoo"
+)
+ch_client = Client(host='localhost', port=9000, user='default', password='')
+ch_client.execute('CREATE DATABASE IF NOT EXISTS kba_bronze')
 
-# Bikin Tabel Target Penjualan (dari CSV)
-client.execute('''
-    CREATE TABLE IF NOT EXISTS kba_bronze.target_penjualan (
-        periode_bulan Date,
-        target_penjualan UInt64
-    ) ENGINE = MergeTree()
-    ORDER BY periode_bulan
-''')
+# --- FUNGSI SAKTI ---
+def sedot_ke_clickhouse(df, nama_tabel):
+    # SAPU JAGAT: Paksa setiap sel tanpa ampun jadi String. Kalau kosong (NaN), jadikan teks kosong ""
+    for col in df.columns:
+        df[col] = df[col].apply(lambda x: "" if pd.isna(x) else str(x))
+        
+    kolom_string = [f"`{col}` Nullable(String)" for col in df.columns]
+    query_bikin_tabel = f"CREATE TABLE IF NOT EXISTS kba_bronze.{nama_tabel} ({', '.join(kolom_string)}) ENGINE = MergeTree() ORDER BY tuple()"
+    
+    ch_client.execute(f'DROP TABLE IF EXISTS kba_bronze.{nama_tabel}')
+    ch_client.execute(query_bikin_tabel)
+    ch_client.execute(f'INSERT INTO kba_bronze.{nama_tabel} VALUES', df.to_dict('records'))
+    print(f"Data {nama_tabel} berhasil masuk!")
 
-# Bikin Tabel Alokasi Anggaran (dari XLSX)
-client.execute('''
-    CREATE TABLE IF NOT EXISTS kba_bronze.alokasi_anggaran (
-        periode_bulan Date,
-        alokasi_pembelian UInt64
-    ) ENGINE = MergeTree()
-    ORDER BY periode_bulan
-''')
+# --- 2. PROSES ODOO POSTGRES ---
+print("Menyedot data dari Odoo Postgres...")
+tabel_odoo = ['sale_order', 'purchase_order', 'stock_quant'] 
+for tabel in tabel_odoo:
+    try:
+        df_odoo = pd.read_sql(f"SELECT * FROM {tabel}", pg_conn)
+        sedot_ke_clickhouse(df_odoo, tabel)
+    except Exception as e:
+        print(f"Gagal menarik {tabel}: {e}")
+        pg_conn.rollback()
 
-# 3. Baca Data Dummy pakai Pandas
-print("Membaca data dari folder data_source...")
-# Path file disesuaikan dengan asumsi kamu menjalankan skrip dari folder utama (kba_kelompok_7)
-df_target = pd.read_csv('data_source/target_penjualan.csv')
-df_anggaran = pd.read_excel('data_source/alokasi_anggaran.xlsx')
+# --- 3. PROSES FILE MANUAL ---
+print("\nMembaca data file manual...")
+try:
+    df_target = pd.read_csv('data/raw/target_sales_simple.csv')
+    sedot_ke_clickhouse(df_target, 'target_penjualan')
 
-# Konversi format tanggal di Pandas agar bisa masuk ke tipe data 'Date' di ClickHouse
-df_target['periode_bulan'] = pd.to_datetime(df_target['periode_bulan']).dt.date
-df_anggaran['periode_bulan'] = pd.to_datetime(df_anggaran['periode_bulan']).dt.date
+    df_anggaran = pd.read_excel('data/raw/budget_purchase_furniture.xlsx')
+    sedot_ke_clickhouse(df_anggaran, 'alokasi_anggaran')
+except Exception as e:
+    print(f"Gagal menarik file manual: {e}")
 
-# 4. Memasukkan Data (Load) ke ClickHouse
-print("Menyedot data ke Layer Bronze ClickHouse...")
-client.execute('INSERT INTO kba_bronze.target_penjualan VALUES', df_target.to_dict('records'))
-client.execute('INSERT INTO kba_bronze.alokasi_anggaran VALUES', df_anggaran.to_dict('records'))
-
-print("Ekstraksi data CSV dan XLSX ke Bronze Layer berhasil, sob!")
+print("\nMISI SELESAI: Layer Bronze siap digunakan!")
+pg_conn.close()
