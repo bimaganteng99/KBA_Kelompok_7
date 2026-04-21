@@ -1,0 +1,9 @@
+# Dockerfile.metabase
+# Metabase untuk Minilab EduBI
+#
+# Sejak Metabase v0.54, driver ClickHouse sudah built-in ke dalam image.
+# Tidak perlu menginstall plugin jar terpisah.
+
+FROM metabase/metabase:v0.59.4
+
+EXPOSE 3000
