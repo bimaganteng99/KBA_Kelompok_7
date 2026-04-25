@@ -1,0 +1,11 @@
+kba_clickhouse:
+  target: dev
+  outputs:
+    dev:
+      type: clickhouse
+      host: localhost
+      port: 9000
+      user: default
+      password: ""
+      # dbt akan membuat hasil cuciannya di database baru bernama kba_silver
+      schema: kba_silver

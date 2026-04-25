@@ -1,0 +1,19 @@
+name: 'kba_kelompok_7'
+version: '1.0.0'
+config-version: 2
+
+# Ini nama profil koneksi yang akan kita pakai
+profile: 'kba_clickhouse'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+models:
+  kba_kelompok_7:
+    # Semua hasil dari folder silver akan otomatis dibikin jadi tabel
+    silver:
+      +materialized: table

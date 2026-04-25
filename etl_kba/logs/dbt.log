@@ -1,0 +1,1374 @@
+[0m19:59:36.448082 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000286F7970830>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000286F521C190>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000286F9A5B390>]}
+
+
+============================== 19:59:36.456164 | 77409d06-bee9-4638-a260-852c98654e84 ==============================
+[0m19:59:36.456164 [info ] [MainThread]: Running with dbt=1.11.8
+[0m19:59:36.457841 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\Lenovo\\.dbt', 'indirect_selection': 'eager', 'invocation_command': 'dbt debug', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m19:59:36.500858 [info ] [MainThread]: dbt version: 1.11.8
+[0m19:59:36.501610 [info ] [MainThread]: python version: 3.14.3
+[0m19:59:36.502060 [info ] [MainThread]: python path: D:\naufal\kba_kelompok_7\env\Scripts\python.exe
+[0m19:59:36.502476 [info ] [MainThread]: os info: Windows-11-10.0.26200-SP0
+[0m19:59:36.502911 [info ] [MainThread]: Using profiles dir at C:\Users\Lenovo\.dbt
+[0m19:59:36.503269 [info ] [MainThread]: Using profiles.yml file at C:\Users\Lenovo\.dbt\profiles.yml
+[0m19:59:36.503965 [info ] [MainThread]: Using dbt_project.yml file at D:\naufal\kba_kelompok_7\etl_kba\dbt_project.yml
+[0m19:59:36.505124 [info ] [MainThread]: Configuration:
+[0m19:59:36.505916 [info ] [MainThread]:   profiles.yml file [[31mERROR not found[0m]
+[0m19:59:36.507093 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m19:59:36.508901 [info ] [MainThread]: Required dependencies:
+[0m19:59:36.509681 [debug] [MainThread]: Executing "git --help"
+[0m19:59:36.594071 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m19:59:36.594621 [debug] [MainThread]: STDERR: "b''"
+[0m19:59:36.595026 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m19:59:36.595757 [info ] [MainThread]: Connection test skipped since no profile was found
+[0m19:59:36.596476 [info ] [MainThread]: [31m2 checks failed:[0m
+[0m19:59:36.597091 [info ] [MainThread]: dbt looked for a profiles.yml file in C:\Users\Lenovo\.dbt\profiles.yml, but did
+not find one. For more information on configuring your profile, consult the
+documentation:
+
+https://docs.getdbt.com/docs/configure-your-profile
+
+
+[0m19:59:36.597935 [info ] [MainThread]: Project loading failed for the following reason:
+ project path <D:\naufal\kba_kelompok_7\etl_kba\dbt_project.yml> not found
+
+[0m19:59:36.598799 [debug] [MainThread]: Command `dbt debug` failed at 19:59:36.598669 after 0.44 seconds
+[0m19:59:36.599282 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000286F9BE62C0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000286F9B45EB0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000286F9BEECF0>]}
+[0m19:59:36.599723 [debug] [MainThread]: Flushing usage events
+[0m19:59:38.428599 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m20:02:14.593721 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000296FC5881A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000296F9D9C2D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000296FD5DB110>]}
+
+
+============================== 20:02:14.602854 | 4e0e9009-5c4d-4b30-a2ca-0c81e0aa6f9b ==============================
+[0m20:02:14.602854 [info ] [MainThread]: Running with dbt=1.11.8
+[0m20:02:14.604113 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': '.', 'indirect_selection': 'eager', 'invocation_command': 'dbt debug --profiles-dir .', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'D:\\naufal\\kba_kelompok_7\\etl_kba\\logs'}
+[0m20:02:14.635394 [info ] [MainThread]: dbt version: 1.11.8
+[0m20:02:14.636450 [info ] [MainThread]: python version: 3.14.3
+[0m20:02:14.637792 [info ] [MainThread]: python path: D:\naufal\kba_kelompok_7\env\Scripts\python.exe
+[0m20:02:14.639201 [info ] [MainThread]: os info: Windows-11-10.0.26200-SP0
+[0m20:02:14.732831 [info ] [MainThread]: Using profiles dir at .
+[0m20:02:14.733790 [info ] [MainThread]: Using profiles.yml file at .\profiles.yml
+[0m20:02:14.734473 [info ] [MainThread]: Using dbt_project.yml file at D:\naufal\kba_kelompok_7\etl_kba\dbt_project.yml
+[0m20:02:14.735715 [info ] [MainThread]: adapter type: clickhouse
+[0m20:02:14.736233 [info ] [MainThread]: adapter version: 1.10.0
+[0m20:02:14.863203 [info ] [MainThread]: Configuration:
+[0m20:02:14.864208 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m20:02:14.864946 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m20:02:14.865526 [info ] [MainThread]: Required dependencies:
+[0m20:02:14.866053 [debug] [MainThread]: Executing "git --help"
+[0m20:02:14.953366 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m20:02:14.953878 [debug] [MainThread]: STDERR: "b''"
+[0m20:02:14.954317 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m20:02:14.954916 [info ] [MainThread]: Connection:
+[0m20:02:14.955435 [info ] [MainThread]:   driver: None
+[0m20:02:14.955912 [info ] [MainThread]:   host: localhost
+[0m20:02:14.956338 [info ] [MainThread]:   port: 9000
+[0m20:02:14.956868 [info ] [MainThread]:   user: default
+[0m20:02:14.957292 [info ] [MainThread]:   schema: kba_silver
+[0m20:02:14.957690 [info ] [MainThread]:   retries: 1
+[0m20:02:14.958084 [info ] [MainThread]:   cluster: None
+[0m20:02:14.958454 [info ] [MainThread]:   database_engine: None
+[0m20:02:14.958785 [info ] [MainThread]:   cluster_mode: False
+[0m20:02:14.959154 [info ] [MainThread]:   secure: False
+[0m20:02:14.959519 [info ] [MainThread]:   verify: True
+[0m20:02:14.959877 [info ] [MainThread]:   client_cert: None
+[0m20:02:14.960291 [info ] [MainThread]:   client_cert_key: None
+[0m20:02:14.960734 [info ] [MainThread]:   connect_timeout: 10
+[0m20:02:14.961407 [info ] [MainThread]:   send_receive_timeout: 300
+[0m20:02:14.961951 [info ] [MainThread]:   sync_request_timeout: 5
+[0m20:02:14.962499 [info ] [MainThread]:   compress_block_size: 1048576
+[0m20:02:14.963075 [info ] [MainThread]:   compression: 
+[0m20:02:14.963589 [info ] [MainThread]:   check_exchange: True
+[0m20:02:14.964201 [info ] [MainThread]:   custom_settings: None
+[0m20:02:14.964701 [info ] [MainThread]:   use_lw_deletes: False
+[0m20:02:14.965330 [info ] [MainThread]:   allow_automatic_deduplication: False
+[0m20:02:14.965901 [info ] [MainThread]:   tcp_keepalive: False
+[0m20:02:14.966567 [info ] [MainThread]: Registered adapter: clickhouse=1.10.0
+[0m20:02:15.253795 [debug] [MainThread]: Acquiring new clickhouse connection 'debug'
+[0m20:02:15.254197 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m20:02:16.628408 [debug] [MainThread]: dbt_clickhouse adapter: On debug: select 1 as id...
+[0m20:02:16.681336 [debug] [MainThread]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:02:22.516504 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m20:02:22.517488 [info ] [MainThread]: [32mAll checks passed![0m
+[0m20:02:22.518608 [debug] [MainThread]: Command `dbt debug` succeeded at 20:02:22.518443 after 8.18 seconds
+[0m20:02:22.519017 [debug] [MainThread]: Connection 'debug' was left open.
+[0m20:02:22.519345 [debug] [MainThread]: On debug: Close
+[0m20:02:22.520043 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000296FE85E780>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000296FEA9BBF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000296FFB716A0>]}
+[0m20:02:22.520547 [debug] [MainThread]: Flushing usage events
+[0m20:02:24.235447 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m20:04:55.498159 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C6D201C1A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C6CF82C2D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C6D403B110>]}
+
+
+============================== 20:04:55.504959 | 2aa2b696-f3c4-465d-bc0c-8e862d83934b ==============================
+[0m20:04:55.504959 [info ] [MainThread]: Running with dbt=1.11.8
+[0m20:04:55.506618 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': '.', 'indirect_selection': 'eager', 'invocation_command': 'dbt debug --profiles-dir .', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'D:\\naufal\\kba_kelompok_7\\etl_kba\\logs'}
+[0m20:04:55.546689 [info ] [MainThread]: dbt version: 1.11.8
+[0m20:04:55.547608 [info ] [MainThread]: python version: 3.14.3
+[0m20:04:55.548449 [info ] [MainThread]: python path: D:\naufal\kba_kelompok_7\env\Scripts\python.exe
+[0m20:04:55.549875 [info ] [MainThread]: os info: Windows-11-10.0.26200-SP0
+[0m20:04:55.655195 [info ] [MainThread]: Using profiles dir at .
+[0m20:04:55.656582 [info ] [MainThread]: Using profiles.yml file at .\profiles.yml
+[0m20:04:55.657611 [info ] [MainThread]: Using dbt_project.yml file at D:\naufal\kba_kelompok_7\etl_kba\dbt_project.yml
+[0m20:04:55.659066 [info ] [MainThread]: adapter type: clickhouse
+[0m20:04:55.659708 [info ] [MainThread]: adapter version: 1.10.0
+[0m20:04:55.950098 [info ] [MainThread]: Configuration:
+[0m20:04:55.951684 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m20:04:55.952493 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m20:04:55.953427 [info ] [MainThread]: Required dependencies:
+[0m20:04:55.954671 [debug] [MainThread]: Executing "git --help"
+[0m20:04:56.056215 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m20:04:56.057229 [debug] [MainThread]: STDERR: "b''"
+[0m20:04:56.058340 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m20:04:56.059579 [info ] [MainThread]: Connection:
+[0m20:04:56.060778 [info ] [MainThread]:   driver: None
+[0m20:04:56.061956 [info ] [MainThread]:   host: localhost
+[0m20:04:56.062952 [info ] [MainThread]:   port: 9000
+[0m20:04:56.064221 [info ] [MainThread]:   user: default
+[0m20:04:56.066009 [info ] [MainThread]:   schema: kba_silver
+[0m20:04:56.067493 [info ] [MainThread]:   retries: 1
+[0m20:04:56.068781 [info ] [MainThread]:   cluster: None
+[0m20:04:56.070135 [info ] [MainThread]:   database_engine: None
+[0m20:04:56.071423 [info ] [MainThread]:   cluster_mode: False
+[0m20:04:56.072786 [info ] [MainThread]:   secure: False
+[0m20:04:56.074024 [info ] [MainThread]:   verify: True
+[0m20:04:56.075148 [info ] [MainThread]:   client_cert: None
+[0m20:04:56.076160 [info ] [MainThread]:   client_cert_key: None
+[0m20:04:56.076830 [info ] [MainThread]:   connect_timeout: 10
+[0m20:04:56.077834 [info ] [MainThread]:   send_receive_timeout: 300
+[0m20:04:56.078431 [info ] [MainThread]:   sync_request_timeout: 5
+[0m20:04:56.079034 [info ] [MainThread]:   compress_block_size: 1048576
+[0m20:04:56.080072 [info ] [MainThread]:   compression: 
+[0m20:04:56.081342 [info ] [MainThread]:   check_exchange: True
+[0m20:04:56.083113 [info ] [MainThread]:   custom_settings: None
+[0m20:04:56.085691 [info ] [MainThread]:   use_lw_deletes: False
+[0m20:04:56.087724 [info ] [MainThread]:   allow_automatic_deduplication: False
+[0m20:04:56.091780 [info ] [MainThread]:   tcp_keepalive: False
+[0m20:04:56.094371 [info ] [MainThread]: Registered adapter: clickhouse=1.10.0
+[0m20:04:57.121115 [debug] [MainThread]: Acquiring new clickhouse connection 'debug'
+[0m20:04:57.124180 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m20:04:58.141895 [debug] [MainThread]: dbt_clickhouse adapter: On debug: select 1 as id...
+[0m20:04:58.205369 [debug] [MainThread]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:04:58.267912 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m20:04:58.268840 [info ] [MainThread]: [32mAll checks passed![0m
+[0m20:04:58.270323 [debug] [MainThread]: Command `dbt debug` succeeded at 20:04:58.269980 after 3.07 seconds
+[0m20:04:58.270794 [debug] [MainThread]: Connection 'debug' was left open.
+[0m20:04:58.271254 [debug] [MainThread]: On debug: Close
+[0m20:04:58.272155 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C6D42EEC40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C6D459BBF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C6D56516A0>]}
+[0m20:04:58.273177 [debug] [MainThread]: Flushing usage events
+[0m20:04:59.746456 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m20:05:11.338110 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000217588B81A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000217560DC190>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175AB4F890>]}
+
+
+============================== 20:05:11.342826 | 0cf8a25c-75bf-4f3f-bedb-59a0a100b709 ==============================
+[0m20:05:11.342826 [info ] [MainThread]: Running with dbt=1.11.8
+[0m20:05:11.343562 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'False', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': '.', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt run --profiles-dir .', 'use_experimental_parser': 'False', 'log_path': 'D:\\naufal\\kba_kelompok_7\\etl_kba\\logs'}
+[0m20:05:11.871920 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '0cf8a25c-75bf-4f3f-bedb-59a0a100b709', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175AB1E060>]}
+[0m20:05:12.017272 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '0cf8a25c-75bf-4f3f-bedb-59a0a100b709', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000021757EA5590>]}
+[0m20:05:12.019760 [info ] [MainThread]: Registered adapter: clickhouse=1.10.0
+[0m20:05:12.685799 [debug] [MainThread]: checksum: 7d524ac048c2100769df89d592e662e060a73ca564e31bd9c2a37efdfe8d8ab6, vars: {}, profile: , target: , version: 1.11.8
+[0m20:05:12.687800 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m20:05:12.688572 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': '0cf8a25c-75bf-4f3f-bedb-59a0a100b709', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175AC0FA50>]}
+[0m20:05:16.400581 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '0cf8a25c-75bf-4f3f-bedb-59a0a100b709', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175B4D33E0>]}
+[0m20:05:16.463535 [debug] [MainThread]: Wrote artifact WritableManifest to D:\naufal\kba_kelompok_7\etl_kba\target\manifest.json
+[0m20:05:16.466848 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\naufal\kba_kelompok_7\etl_kba\target\semantic_manifest.json
+[0m20:05:16.509820 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '0cf8a25c-75bf-4f3f-bedb-59a0a100b709', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175B58DC50>]}
+[0m20:05:16.510379 [info ] [MainThread]: Found 1 model, 523 macros
+[0m20:05:16.511101 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '0cf8a25c-75bf-4f3f-bedb-59a0a100b709', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175B5457E0>]}
+[0m20:05:16.512974 [info ] [MainThread]: 
+[0m20:05:16.513563 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m20:05:16.514203 [info ] [MainThread]: 
+[0m20:05:16.514955 [debug] [MainThread]: Acquiring new clickhouse connection 'master'
+[0m20:05:16.516230 [debug] [ThreadPool]: Acquiring new clickhouse connection 'list_'
+[0m20:05:16.527061 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m20:05:17.308736 [debug] [ThreadPool]: dbt_clickhouse adapter: On list_: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "connection_name": "list_"} */
+
+    select name from system.databases
+  ...
+[0m20:05:17.371380 [debug] [ThreadPool]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:05:17.414607 [debug] [ThreadPool]: Acquiring new clickhouse connection 'list__kba_silver'
+[0m20:05:17.420956 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m20:05:17.976284 [debug] [ThreadPool]: dbt_clickhouse adapter: On list__kba_silver: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "connection_name": "list__kba_silver"} */
+with mv_sources as (
+      -- Find all MVs and their target tables (database and name of the MV, plus the SELECT SQL)
+      select
+        name as mv_name,
+        database as mv_database,
+        any(as_select) as mv_sql,
+        any(replaceRegexpOne(create_table_query, '.*TO\\s+`?([^`\\s(]+)`?\\.`?([^`\\s(]+)`?.*', '\\1.\\2')) as target_fqn
+      
+      from system.tables
+      
+      where engine = 'MaterializedView'
+        and create_table_query like '%TO %'
+      group by mv_name, mv_database
+    )
+    select
+      t.name as name,
+      t.database as schema,
+      multiIf(
+        t.engine = 'MaterializedView', 'materialized_view',
+        t.engine = 'View', 'view',
+        t.engine = 'Dictionary', 'dictionary',
+        'table'
+      ) as type,
+      db.engine as db_engine,
+      groupArrayIf(
+        map('schema', mv_sources.mv_database, 'name', mv_sources.mv_name, 'sql', mv_sources.mv_sql),
+        mv_sources.mv_name != ''
+      ) as mvs_pointing_to_it,0 as is_on_cluster
+        from system.tables as t
+      
+        join system.databases as db on t.database = db.name
+        left join mv_sources on mv_sources.target_fqn = concat(t.database, '.', t.name)
+      where schema = 'kba_silver'
+      group by name, schema, type, db_engine
+
+  ...
+[0m20:05:18.122429 [debug] [ThreadPool]: dbt_clickhouse adapter: SQL status: OK in 0.15 seconds
+[0m20:05:18.124344 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '0cf8a25c-75bf-4f3f-bedb-59a0a100b709', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175B93FA10>]}
+[0m20:05:18.175824 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_sales
+[0m20:05:18.176525 [info ] [Thread-1 (]: 1 of 1 START sql table model `kba_silver`.`silver_sales` ....................... [RUN]
+[0m20:05:18.177452 [debug] [Thread-1 (]: Acquiring new clickhouse connection 'model.kba_kelompok_7.silver_sales'
+[0m20:05:18.177898 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_sales
+[0m20:05:18.187771 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_sales"
+[0m20:05:18.189925 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_sales
+[0m20:05:18.241924 [debug] [Thread-1 (]: Creating new relation silver_sales
+[0m20:05:18.275607 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m20:05:18.829186 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_sales`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_sales AS (
+    -- Ambil data mentah dari Layer Bronze
+    SELECT * FROM kba_bronze.sale_order
+)
+
+SELECT
+    -- 1. Mengembalikan tipe data ke aslinya
+    toInt32OrNull(id) AS id_penjualan,
+    
+    -- 2. Merapikan nama kolom
+    name AS nomor_nota,
+    
+    -- 3. Mengubah string menjadi format waktu (DateTime)
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    
+    -- 4. Mengubah string menjadi angka desimal (Uang)
+    toFloat64OrNull(amount_total) AS total_belanja,
+    
+    state AS status_transaksi
+
+FROM raw_sales
+-- 5. Membuang baris yang ID-nya kosong/cacat
+WHERE id IS NOT NULL AND id != ''
+          )
+        
+        ...
+[0m20:05:18.914729 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.08 seconds
+[0m20:05:18.935155 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+    select name, type from system.columns where table = 'silver_sales'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:05:19.001376 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:05:19.005803 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_sales"
+[0m20:05:19.007681 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_sales`
+        ("id_penjualan", "nomor_nota", "tanggal_transaksi", "total_belanja", "status_transaksi")
+
+WITH raw_sales AS (
+    -- Ambil data mentah dari Layer Bronze
+    SELECT * FROM kba_bronze.sale_order
+)
+
+SELECT
+    -- 1. Mengembalikan tipe data ke aslinya
+    toInt32OrNull(id) AS id_penjualan,
+    
+    -- 2. Merapikan nama kolom
+    name AS nomor_nota,
+    
+    -- 3. Mengubah string menjadi format waktu (DateTime)
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    
+    -- 4. Mengubah string menjadi angka desimal (Uang)
+    toFloat64OrNull(amount_total) AS total_belanja,
+    
+    state AS status_transaksi
+
+FROM raw_sales
+-- 5. Membuang baris yang ID-nya kosong/cacat
+WHERE id IS NOT NULL AND id != ''
+  ...
+[0m20:05:19.110293 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.10 seconds
+[0m20:05:19.129996 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0cf8a25c-75bf-4f3f-bedb-59a0a100b709', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000021758C02A40>]}
+[0m20:05:19.130730 [info ] [Thread-1 (]: 1 of 1 OK created sql table model `kba_silver`.`silver_sales` .................. [[32mOK[0m in 0.95s]
+[0m20:05:19.131706 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_sales
+[0m20:05:19.133261 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m20:05:19.133589 [debug] [MainThread]: Connection 'list_' was left open.
+[0m20:05:19.133858 [debug] [MainThread]: On list_: Close
+[0m20:05:19.134757 [debug] [MainThread]: Connection 'list__kba_silver' was left open.
+[0m20:05:19.135561 [debug] [MainThread]: On list__kba_silver: Close
+[0m20:05:19.136264 [debug] [MainThread]: Connection 'model.kba_kelompok_7.silver_sales' was left open.
+[0m20:05:19.137314 [debug] [MainThread]: On model.kba_kelompok_7.silver_sales: Close
+[0m20:05:19.138353 [info ] [MainThread]: 
+[0m20:05:19.139127 [info ] [MainThread]: Finished running 1 table model in 0 hours 0 minutes and 2.62 seconds (2.62s).
+[0m20:05:19.140505 [debug] [MainThread]: Command end result
+[0m20:05:19.173254 [debug] [MainThread]: Wrote artifact WritableManifest to D:\naufal\kba_kelompok_7\etl_kba\target\manifest.json
+[0m20:05:19.175899 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\naufal\kba_kelompok_7\etl_kba\target\semantic_manifest.json
+[0m20:05:19.185209 [debug] [MainThread]: Wrote artifact RunExecutionResult to D:\naufal\kba_kelompok_7\etl_kba\target\run_results.json
+[0m20:05:19.185963 [info ] [MainThread]: 
+[0m20:05:19.186714 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m20:05:19.187241 [info ] [MainThread]: 
+[0m20:05:19.187757 [info ] [MainThread]: Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=1
+[0m20:05:19.188865 [debug] [MainThread]: Command `dbt run` succeeded at 20:05:19.188702 after 8.01 seconds
+[0m20:05:19.189250 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000021754943070>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175D7A8DD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002175B91D950>]}
+[0m20:05:19.189586 [debug] [MainThread]: Flushing usage events
+[0m20:05:20.620879 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m20:07:28.038848 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E650981A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E628AC2D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E6732F890>]}
+
+
+============================== 20:07:28.046311 | 80504a9d-f3c2-4140-842a-123c5d847c6d ==============================
+[0m20:07:28.046311 [info ] [MainThread]: Running with dbt=1.11.8
+[0m20:07:28.047539 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'empty': 'False', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': '.', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt run --profiles-dir .', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'D:\\naufal\\kba_kelompok_7\\etl_kba\\logs'}
+[0m20:07:28.275600 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E672FE060>]}
+[0m20:07:28.344227 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E64695590>]}
+[0m20:07:28.346179 [info ] [MainThread]: Registered adapter: clickhouse=1.10.0
+[0m20:07:28.526842 [debug] [MainThread]: checksum: 7d524ac048c2100769df89d592e662e060a73ca564e31bd9c2a37efdfe8d8ab6, vars: {}, profile: , target: , version: 1.11.8
+[0m20:07:28.716611 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 2 files added, 0 files changed.
+[0m20:07:28.717126 [debug] [MainThread]: Partial parsing: added file: kba_kelompok_7://models\silver\silver_purchase.sql
+[0m20:07:28.717449 [debug] [MainThread]: Partial parsing: added file: kba_kelompok_7://models\silver\silver_inventory.sql
+[0m20:07:29.113004 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E6781DD50>]}
+[0m20:07:29.229233 [debug] [MainThread]: Wrote artifact WritableManifest to D:\naufal\kba_kelompok_7\etl_kba\target\manifest.json
+[0m20:07:29.232458 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\naufal\kba_kelompok_7\etl_kba\target\semantic_manifest.json
+[0m20:07:29.251314 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E67B26E40>]}
+[0m20:07:29.251849 [info ] [MainThread]: Found 3 models, 523 macros
+[0m20:07:29.252519 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E67B691D0>]}
+[0m20:07:29.254582 [info ] [MainThread]: 
+[0m20:07:29.255319 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m20:07:29.255849 [info ] [MainThread]: 
+[0m20:07:29.256513 [debug] [MainThread]: Acquiring new clickhouse connection 'master'
+[0m20:07:29.264925 [debug] [ThreadPool]: Acquiring new clickhouse connection 'list_'
+[0m20:07:29.276522 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m20:07:30.078848 [debug] [ThreadPool]: dbt_clickhouse adapter: On list_: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "connection_name": "list_"} */
+
+    select name from system.databases
+  ...
+[0m20:07:30.133310 [debug] [ThreadPool]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:07:30.188007 [debug] [ThreadPool]: Acquiring new clickhouse connection 'list__kba_silver'
+[0m20:07:30.196580 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m20:07:30.765000 [debug] [ThreadPool]: dbt_clickhouse adapter: On list__kba_silver: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "connection_name": "list__kba_silver"} */
+with mv_sources as (
+      -- Find all MVs and their target tables (database and name of the MV, plus the SELECT SQL)
+      select
+        name as mv_name,
+        database as mv_database,
+        any(as_select) as mv_sql,
+        any(replaceRegexpOne(create_table_query, '.*TO\\s+`?([^`\\s(]+)`?\\.`?([^`\\s(]+)`?.*', '\\1.\\2')) as target_fqn
+      
+      from system.tables
+      
+      where engine = 'MaterializedView'
+        and create_table_query like '%TO %'
+      group by mv_name, mv_database
+    )
+    select
+      t.name as name,
+      t.database as schema,
+      multiIf(
+        t.engine = 'MaterializedView', 'materialized_view',
+        t.engine = 'View', 'view',
+        t.engine = 'Dictionary', 'dictionary',
+        'table'
+      ) as type,
+      db.engine as db_engine,
+      groupArrayIf(
+        map('schema', mv_sources.mv_database, 'name', mv_sources.mv_name, 'sql', mv_sources.mv_sql),
+        mv_sources.mv_name != ''
+      ) as mvs_pointing_to_it,0 as is_on_cluster
+        from system.tables as t
+      
+        join system.databases as db on t.database = db.name
+        left join mv_sources on mv_sources.target_fqn = concat(t.database, '.', t.name)
+      where schema = 'kba_silver'
+      group by name, schema, type, db_engine
+
+  ...
+[0m20:07:30.848309 [debug] [ThreadPool]: dbt_clickhouse adapter: SQL status: OK in 0.08 seconds
+[0m20:07:30.851052 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E699B9230>]}
+[0m20:07:30.856929 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_inventory
+[0m20:07:30.857520 [info ] [Thread-1 (]: 1 of 3 START sql table model `kba_silver`.`silver_inventory` ................... [RUN]
+[0m20:07:30.858375 [debug] [Thread-1 (]: Acquiring new clickhouse connection 'model.kba_kelompok_7.silver_inventory'
+[0m20:07:30.858707 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_inventory
+[0m20:07:30.866043 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_inventory"
+[0m20:07:30.867210 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_inventory
+[0m20:07:30.908938 [debug] [Thread-1 (]: Creating new relation silver_inventory
+[0m20:07:30.945351 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m20:07:31.501683 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_inventory: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_inventory"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_inventory`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_inventory AS (
+    SELECT * FROM kba_bronze.stock_quant
+)
+
+SELECT
+    toInt32OrNull(id) AS id_stok,
+    toInt32OrNull(product_id) AS id_produk,
+    toInt32OrNull(location_id) AS id_lokasi,
+    toFloat64OrNull(quantity) AS jumlah_stok
+
+FROM raw_inventory
+WHERE id IS NOT NULL AND id != ''
+          )
+        
+        ...
+[0m20:07:31.576442 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:07:31.599465 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_inventory: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_inventory"} */
+
+    select name, type from system.columns where table = 'silver_inventory'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:07:31.653371 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:07:31.660503 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_inventory"
+[0m20:07:31.662352 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_inventory: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_inventory"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_inventory`
+        ("id_stok", "id_produk", "id_lokasi", "jumlah_stok")
+
+WITH raw_inventory AS (
+    SELECT * FROM kba_bronze.stock_quant
+)
+
+SELECT
+    toInt32OrNull(id) AS id_stok,
+    toInt32OrNull(product_id) AS id_produk,
+    toInt32OrNull(location_id) AS id_lokasi,
+    toFloat64OrNull(quantity) AS jumlah_stok
+
+FROM raw_inventory
+WHERE id IS NOT NULL AND id != ''
+  ...
+[0m20:07:31.719738 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:07:31.739234 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E69AC5550>]}
+[0m20:07:31.740310 [info ] [Thread-1 (]: 1 of 3 OK created sql table model `kba_silver`.`silver_inventory` .............. [[32mOK[0m in 0.88s]
+[0m20:07:31.741400 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_inventory
+[0m20:07:31.741816 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_purchase
+[0m20:07:31.742398 [info ] [Thread-1 (]: 2 of 3 START sql table model `kba_silver`.`silver_purchase` .................... [RUN]
+[0m20:07:31.743085 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.kba_kelompok_7.silver_inventory, now model.kba_kelompok_7.silver_purchase)
+[0m20:07:31.743469 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_purchase
+[0m20:07:31.746236 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_purchase"
+[0m20:07:31.747502 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_purchase
+[0m20:07:31.750082 [debug] [Thread-1 (]: Creating new relation silver_purchase
+[0m20:07:31.751575 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_purchase: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_purchase"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_purchase`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_purchase AS (
+    SELECT * FROM kba_bronze.purchase_order
+)
+
+SELECT
+    toInt32OrNull(id) AS id_pembelian,
+    name AS nomor_nota_beli,
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    toFloat64OrNull(amount_total) AS total_belanja,
+    state AS status_transaksi
+
+FROM raw_purchase
+WHERE id IS NOT NULL AND id != ''
+          )
+        
+        ...
+[0m20:07:31.819445 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:07:31.822167 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_purchase: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_purchase"} */
+
+    select name, type from system.columns where table = 'silver_purchase'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:07:31.871363 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:07:31.872910 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_purchase"
+[0m20:07:31.874317 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_purchase: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_purchase"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_purchase`
+        ("id_pembelian", "nomor_nota_beli", "tanggal_transaksi", "total_belanja", "status_transaksi")
+
+WITH raw_purchase AS (
+    SELECT * FROM kba_bronze.purchase_order
+)
+
+SELECT
+    toInt32OrNull(id) AS id_pembelian,
+    name AS nomor_nota_beli,
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    toFloat64OrNull(amount_total) AS total_belanja,
+    state AS status_transaksi
+
+FROM raw_purchase
+WHERE id IS NOT NULL AND id != ''
+  ...
+[0m20:07:31.940048 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:07:31.943408 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E69BCFCD0>]}
+[0m20:07:31.944405 [info ] [Thread-1 (]: 2 of 3 OK created sql table model `kba_silver`.`silver_purchase` ............... [[32mOK[0m in 0.20s]
+[0m20:07:31.945661 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_purchase
+[0m20:07:31.946161 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_sales
+[0m20:07:31.946773 [info ] [Thread-1 (]: 3 of 3 START sql table model `kba_silver`.`silver_sales` ....................... [RUN]
+[0m20:07:31.947551 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.kba_kelompok_7.silver_purchase, now model.kba_kelompok_7.silver_sales)
+[0m20:07:31.947967 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_sales
+[0m20:07:31.951169 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_sales"
+[0m20:07:31.952281 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_sales
+[0m20:07:31.966412 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_sales__dbt_backup`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_sales AS (
+    -- Ambil data mentah dari Layer Bronze
+    SELECT * FROM kba_bronze.sale_order
+)
+
+SELECT
+    -- 1. Mengembalikan tipe data ke aslinya
+    toInt32OrNull(id) AS id_penjualan,
+    
+    -- 2. Merapikan nama kolom
+    name AS nomor_nota,
+    
+    -- 3. Mengubah string menjadi format waktu (DateTime)
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    
+    -- 4. Mengubah string menjadi angka desimal (Uang)
+    toFloat64OrNull(amount_total) AS total_belanja,
+    
+    state AS status_transaksi
+
+FROM raw_sales
+-- 5. Membuang baris yang ID-nya kosong/cacat
+WHERE id IS NOT NULL AND id != ''
+          )
+        
+        ...
+[0m20:07:32.028007 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:07:32.030697 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+    select name, type from system.columns where table = 'silver_sales__dbt_backup'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:07:32.079992 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:07:32.081632 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_sales"
+[0m20:07:32.082735 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_sales__dbt_backup`
+        ("id_penjualan", "nomor_nota", "tanggal_transaksi", "total_belanja", "status_transaksi")
+
+WITH raw_sales AS (
+    -- Ambil data mentah dari Layer Bronze
+    SELECT * FROM kba_bronze.sale_order
+)
+
+SELECT
+    -- 1. Mengembalikan tipe data ke aslinya
+    toInt32OrNull(id) AS id_penjualan,
+    
+    -- 2. Merapikan nama kolom
+    name AS nomor_nota,
+    
+    -- 3. Mengubah string menjadi format waktu (DateTime)
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    
+    -- 4. Mengubah string menjadi angka desimal (Uang)
+    toFloat64OrNull(amount_total) AS total_belanja,
+    
+    state AS status_transaksi
+
+FROM raw_sales
+-- 5. Membuang baris yang ID-nya kosong/cacat
+WHERE id IS NOT NULL AND id != ''
+  ...
+[0m20:07:32.146928 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:07:32.152878 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+EXCHANGE TABLES `kba_silver`.`silver_sales__dbt_backup` AND `kba_silver`.`silver_sales` 
+  
+  ...
+[0m20:07:32.201279 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:07:32.215696 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+drop table if exists `kba_silver`.`silver_sales__dbt_backup` 
+  ...
+[0m20:07:32.262280 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:07:32.266193 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '80504a9d-f3c2-4140-842a-123c5d847c6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E69E7D3B0>]}
+[0m20:07:32.267597 [info ] [Thread-1 (]: 3 of 3 OK created sql table model `kba_silver`.`silver_sales` .................. [[32mOK[0m in 0.32s]
+[0m20:07:32.269545 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_sales
+[0m20:07:32.272564 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m20:07:32.273642 [debug] [MainThread]: Connection 'list_' was left open.
+[0m20:07:32.274291 [debug] [MainThread]: On list_: Close
+[0m20:07:32.275208 [debug] [MainThread]: Connection 'list__kba_silver' was left open.
+[0m20:07:32.276244 [debug] [MainThread]: On list__kba_silver: Close
+[0m20:07:32.277326 [debug] [MainThread]: Connection 'model.kba_kelompok_7.silver_sales' was left open.
+[0m20:07:32.278321 [debug] [MainThread]: On model.kba_kelompok_7.silver_sales: Close
+[0m20:07:32.279995 [info ] [MainThread]: 
+[0m20:07:32.281068 [info ] [MainThread]: Finished running 3 table models in 0 hours 0 minutes and 3.02 seconds (3.02s).
+[0m20:07:32.284527 [debug] [MainThread]: Command end result
+[0m20:07:32.317108 [debug] [MainThread]: Wrote artifact WritableManifest to D:\naufal\kba_kelompok_7\etl_kba\target\manifest.json
+[0m20:07:32.320450 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\naufal\kba_kelompok_7\etl_kba\target\semantic_manifest.json
+[0m20:07:32.329572 [debug] [MainThread]: Wrote artifact RunExecutionResult to D:\naufal\kba_kelompok_7\etl_kba\target\run_results.json
+[0m20:07:32.330191 [info ] [MainThread]: 
+[0m20:07:32.331109 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m20:07:32.331731 [info ] [MainThread]: 
+[0m20:07:32.332294 [info ] [MainThread]: Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+[0m20:07:32.333428 [debug] [MainThread]: Command `dbt run` succeeded at 20:07:32.333293 after 4.53 seconds
+[0m20:07:32.333837 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E67336350>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E67C25F50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000022E6734E200>]}
+[0m20:07:32.334219 [debug] [MainThread]: Flushing usage events
+[0m20:07:33.833359 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m20:16:49.319341 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002330FBC81A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002330D41C190>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023311E5F890>]}
+
+
+============================== 20:16:49.329133 | ea8f362c-2391-48d8-9eb7-7684ac09bf56 ==============================
+[0m20:16:49.329133 [info ] [MainThread]: Running with dbt=1.11.8
+[0m20:16:49.330763 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'empty': 'False', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': '.', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'invocation_command': 'dbt run --profiles-dir .', 'use_colors': 'True', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'D:\\naufal\\kba_kelompok_7\\etl_kba\\logs'}
+[0m20:16:49.578998 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023311E2E060>]}
+[0m20:16:49.646983 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002330F1C5590>]}
+[0m20:16:49.649500 [info ] [MainThread]: Registered adapter: clickhouse=1.10.0
+[0m20:16:49.871442 [debug] [MainThread]: checksum: 7d524ac048c2100769df89d592e662e060a73ca564e31bd9c2a37efdfe8d8ab6, vars: {}, profile: , target: , version: 1.11.8
+[0m20:16:50.121556 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 2 files added, 0 files changed.
+[0m20:16:50.122094 [debug] [MainThread]: Partial parsing: added file: kba_kelompok_7://models\silver\silver_target_penjualan.sql
+[0m20:16:50.122423 [debug] [MainThread]: Partial parsing: added file: kba_kelompok_7://models\silver\silver_alokasi_anggaran.sql
+[0m20:16:50.439256 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002331236DD50>]}
+[0m20:16:50.543984 [debug] [MainThread]: Wrote artifact WritableManifest to D:\naufal\kba_kelompok_7\etl_kba\target\manifest.json
+[0m20:16:50.546544 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\naufal\kba_kelompok_7\etl_kba\target\semantic_manifest.json
+[0m20:16:50.566623 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002331267AE40>]}
+[0m20:16:50.567569 [info ] [MainThread]: Found 5 models, 523 macros
+[0m20:16:50.568389 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000233126C3930>]}
+[0m20:16:50.571867 [info ] [MainThread]: 
+[0m20:16:50.573592 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m20:16:50.574150 [info ] [MainThread]: 
+[0m20:16:50.575006 [debug] [MainThread]: Acquiring new clickhouse connection 'master'
+[0m20:16:50.583813 [debug] [ThreadPool]: Acquiring new clickhouse connection 'list_'
+[0m20:16:50.620649 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m20:16:51.947992 [debug] [ThreadPool]: dbt_clickhouse adapter: On list_: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "connection_name": "list_"} */
+
+    select name from system.databases
+  ...
+[0m20:16:52.005721 [debug] [ThreadPool]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:16:52.163687 [debug] [ThreadPool]: Acquiring new clickhouse connection 'list__kba_silver'
+[0m20:16:52.181113 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m20:16:52.796683 [debug] [ThreadPool]: dbt_clickhouse adapter: On list__kba_silver: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "connection_name": "list__kba_silver"} */
+with mv_sources as (
+      -- Find all MVs and their target tables (database and name of the MV, plus the SELECT SQL)
+      select
+        name as mv_name,
+        database as mv_database,
+        any(as_select) as mv_sql,
+        any(replaceRegexpOne(create_table_query, '.*TO\\s+`?([^`\\s(]+)`?\\.`?([^`\\s(]+)`?.*', '\\1.\\2')) as target_fqn
+      
+      from system.tables
+      
+      where engine = 'MaterializedView'
+        and create_table_query like '%TO %'
+      group by mv_name, mv_database
+    )
+    select
+      t.name as name,
+      t.database as schema,
+      multiIf(
+        t.engine = 'MaterializedView', 'materialized_view',
+        t.engine = 'View', 'view',
+        t.engine = 'Dictionary', 'dictionary',
+        'table'
+      ) as type,
+      db.engine as db_engine,
+      groupArrayIf(
+        map('schema', mv_sources.mv_database, 'name', mv_sources.mv_name, 'sql', mv_sources.mv_sql),
+        mv_sources.mv_name != ''
+      ) as mvs_pointing_to_it,0 as is_on_cluster
+        from system.tables as t
+      
+        join system.databases as db on t.database = db.name
+        left join mv_sources on mv_sources.target_fqn = concat(t.database, '.', t.name)
+      where schema = 'kba_silver'
+      group by name, schema, type, db_engine
+
+  ...
+[0m20:16:52.963175 [debug] [ThreadPool]: dbt_clickhouse adapter: SQL status: OK in 0.17 seconds
+[0m20:16:52.967964 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023314451640>]}
+[0m20:16:52.983344 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_alokasi_anggaran
+[0m20:16:52.985001 [info ] [Thread-1 (]: 1 of 5 START sql table model `kba_silver`.`silver_alokasi_anggaran` ............ [RUN]
+[0m20:16:52.986475 [debug] [Thread-1 (]: Acquiring new clickhouse connection 'model.kba_kelompok_7.silver_alokasi_anggaran'
+[0m20:16:52.987161 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_alokasi_anggaran
+[0m20:16:53.004781 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_alokasi_anggaran"
+[0m20:16:53.011154 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_alokasi_anggaran
+[0m20:16:53.163036 [debug] [Thread-1 (]: Creating new relation silver_alokasi_anggaran
+[0m20:16:53.229232 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m20:16:53.871014 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_alokasi_anggaran: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_alokasi_anggaran"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_alokasi_anggaran`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_anggaran AS (
+    SELECT * FROM kba_bronze.alokasi_anggaran
+)
+
+SELECT
+    -- Ubah teks jadi format Tanggal (kita pangkas jamnya biar rapi jadi tanggal aja)
+    toDateOrNull(month) AS periode_bulan,
+    
+    -- Ubah teks jadi angka desimal
+    toFloat64OrNull(budget) AS jumlah_anggaran
+
+FROM raw_anggaran
+WHERE month IS NOT NULL AND month != ''
+          )
+        
+        ...
+[0m20:16:53.958054 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.09 seconds
+[0m20:16:54.013585 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_alokasi_anggaran: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_alokasi_anggaran"} */
+
+    select name, type from system.columns where table = 'silver_alokasi_anggaran'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:16:54.083025 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:16:54.093464 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_alokasi_anggaran"
+[0m20:16:54.096470 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_alokasi_anggaran: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_alokasi_anggaran"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_alokasi_anggaran`
+        ("periode_bulan", "jumlah_anggaran")
+
+WITH raw_anggaran AS (
+    SELECT * FROM kba_bronze.alokasi_anggaran
+)
+
+SELECT
+    -- Ubah teks jadi format Tanggal (kita pangkas jamnya biar rapi jadi tanggal aja)
+    toDateOrNull(month) AS periode_bulan,
+    
+    -- Ubah teks jadi angka desimal
+    toFloat64OrNull(budget) AS jumlah_anggaran
+
+FROM raw_anggaran
+WHERE month IS NOT NULL AND month != ''
+  ...
+[0m20:16:54.167723 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:16:54.217812 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002331455D6D0>]}
+[0m20:16:54.219770 [info ] [Thread-1 (]: 1 of 5 OK created sql table model `kba_silver`.`silver_alokasi_anggaran` ....... [[32mOK[0m in 1.23s]
+[0m20:16:54.221792 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_alokasi_anggaran
+[0m20:16:54.222959 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_inventory
+[0m20:16:54.224660 [info ] [Thread-1 (]: 2 of 5 START sql table model `kba_silver`.`silver_inventory` ................... [RUN]
+[0m20:16:54.226077 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.kba_kelompok_7.silver_alokasi_anggaran, now model.kba_kelompok_7.silver_inventory)
+[0m20:16:54.226739 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_inventory
+[0m20:16:54.232024 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_inventory"
+[0m20:16:54.235823 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_inventory
+[0m20:16:54.267486 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_inventory: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_inventory"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_inventory__dbt_backup`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_inventory AS (
+    SELECT * FROM kba_bronze.stock_quant
+)
+
+SELECT
+    toInt32OrNull(id) AS id_stok,
+    toInt32OrNull(product_id) AS id_produk,
+    toInt32OrNull(location_id) AS id_lokasi,
+    toFloat64OrNull(quantity) AS jumlah_stok
+
+FROM raw_inventory
+WHERE id IS NOT NULL AND id != ''
+          )
+        
+        ...
+[0m20:16:54.336757 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:16:54.344605 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_inventory: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_inventory"} */
+
+    select name, type from system.columns where table = 'silver_inventory__dbt_backup'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:16:54.400861 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:16:54.404418 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_inventory"
+[0m20:16:54.407130 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_inventory: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_inventory"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_inventory__dbt_backup`
+        ("id_stok", "id_produk", "id_lokasi", "jumlah_stok")
+
+WITH raw_inventory AS (
+    SELECT * FROM kba_bronze.stock_quant
+)
+
+SELECT
+    toInt32OrNull(id) AS id_stok,
+    toInt32OrNull(product_id) AS id_produk,
+    toInt32OrNull(location_id) AS id_lokasi,
+    toFloat64OrNull(quantity) AS jumlah_stok
+
+FROM raw_inventory
+WHERE id IS NOT NULL AND id != ''
+  ...
+[0m20:16:54.490879 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.08 seconds
+[0m20:16:54.508845 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_inventory: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_inventory"} */
+EXCHANGE TABLES `kba_silver`.`silver_inventory__dbt_backup` AND `kba_silver`.`silver_inventory` 
+  
+  ...
+[0m20:16:54.561927 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:16:54.589120 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_inventory: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_inventory"} */
+drop table if exists `kba_silver`.`silver_inventory__dbt_backup` 
+  ...
+[0m20:16:54.644227 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:16:54.661631 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023314637CD0>]}
+[0m20:16:54.673206 [info ] [Thread-1 (]: 2 of 5 OK created sql table model `kba_silver`.`silver_inventory` .............. [[32mOK[0m in 0.43s]
+[0m20:16:54.680352 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_inventory
+[0m20:16:54.685723 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_purchase
+[0m20:16:54.689028 [info ] [Thread-1 (]: 3 of 5 START sql table model `kba_silver`.`silver_purchase` .................... [RUN]
+[0m20:16:54.695083 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.kba_kelompok_7.silver_inventory, now model.kba_kelompok_7.silver_purchase)
+[0m20:16:54.705939 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_purchase
+[0m20:16:54.758071 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_purchase"
+[0m20:16:54.763312 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_purchase
+[0m20:16:54.780199 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_purchase: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_purchase"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_purchase__dbt_backup`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_purchase AS (
+    SELECT * FROM kba_bronze.purchase_order
+)
+
+SELECT
+    toInt32OrNull(id) AS id_pembelian,
+    name AS nomor_nota_beli,
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    toFloat64OrNull(amount_total) AS total_belanja,
+    state AS status_transaksi
+
+FROM raw_purchase
+WHERE id IS NOT NULL AND id != ''
+          )
+        
+        ...
+[0m20:16:54.878489 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.10 seconds
+[0m20:16:54.885114 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_purchase: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_purchase"} */
+
+    select name, type from system.columns where table = 'silver_purchase__dbt_backup'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:16:54.946070 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:16:54.950354 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_purchase"
+[0m20:16:54.952265 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_purchase: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_purchase"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_purchase__dbt_backup`
+        ("id_pembelian", "nomor_nota_beli", "tanggal_transaksi", "total_belanja", "status_transaksi")
+
+WITH raw_purchase AS (
+    SELECT * FROM kba_bronze.purchase_order
+)
+
+SELECT
+    toInt32OrNull(id) AS id_pembelian,
+    name AS nomor_nota_beli,
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    toFloat64OrNull(amount_total) AS total_belanja,
+    state AS status_transaksi
+
+FROM raw_purchase
+WHERE id IS NOT NULL AND id != ''
+  ...
+[0m20:16:55.028075 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:16:55.030969 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_purchase: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_purchase"} */
+EXCHANGE TABLES `kba_silver`.`silver_purchase__dbt_backup` AND `kba_silver`.`silver_purchase` 
+  
+  ...
+[0m20:16:55.089445 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:16:55.108887 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_purchase: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_purchase"} */
+drop table if exists `kba_silver`.`silver_purchase__dbt_backup` 
+  ...
+[0m20:16:55.156173 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:16:55.160759 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023314931C70>]}
+[0m20:16:55.164240 [info ] [Thread-1 (]: 3 of 5 OK created sql table model `kba_silver`.`silver_purchase` ............... [[32mOK[0m in 0.47s]
+[0m20:16:55.168019 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_purchase
+[0m20:16:55.169565 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_sales
+[0m20:16:55.171511 [info ] [Thread-1 (]: 4 of 5 START sql table model `kba_silver`.`silver_sales` ....................... [RUN]
+[0m20:16:55.174750 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.kba_kelompok_7.silver_purchase, now model.kba_kelompok_7.silver_sales)
+[0m20:16:55.176802 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_sales
+[0m20:16:55.197104 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_sales"
+[0m20:16:55.211385 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_sales
+[0m20:16:55.246921 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_sales__dbt_backup`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_sales AS (
+    -- Ambil data mentah dari Layer Bronze
+    SELECT * FROM kba_bronze.sale_order
+)
+
+SELECT
+    -- 1. Mengembalikan tipe data ke aslinya
+    toInt32OrNull(id) AS id_penjualan,
+    
+    -- 2. Merapikan nama kolom
+    name AS nomor_nota,
+    
+    -- 3. Mengubah string menjadi format waktu (DateTime)
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    
+    -- 4. Mengubah string menjadi angka desimal (Uang)
+    toFloat64OrNull(amount_total) AS total_belanja,
+    
+    state AS status_transaksi
+
+FROM raw_sales
+-- 5. Membuang baris yang ID-nya kosong/cacat
+WHERE id IS NOT NULL AND id != ''
+          )
+        
+        ...
+[0m20:16:55.346274 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.10 seconds
+[0m20:16:55.357188 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+    select name, type from system.columns where table = 'silver_sales__dbt_backup'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:16:55.424701 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:16:55.427849 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_sales"
+[0m20:16:55.429511 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_sales__dbt_backup`
+        ("id_penjualan", "nomor_nota", "tanggal_transaksi", "total_belanja", "status_transaksi")
+
+WITH raw_sales AS (
+    -- Ambil data mentah dari Layer Bronze
+    SELECT * FROM kba_bronze.sale_order
+)
+
+SELECT
+    -- 1. Mengembalikan tipe data ke aslinya
+    toInt32OrNull(id) AS id_penjualan,
+    
+    -- 2. Merapikan nama kolom
+    name AS nomor_nota,
+    
+    -- 3. Mengubah string menjadi format waktu (DateTime)
+    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    
+    -- 4. Mengubah string menjadi angka desimal (Uang)
+    toFloat64OrNull(amount_total) AS total_belanja,
+    
+    state AS status_transaksi
+
+FROM raw_sales
+-- 5. Membuang baris yang ID-nya kosong/cacat
+WHERE id IS NOT NULL AND id != ''
+  ...
+[0m20:16:55.509647 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.08 seconds
+[0m20:16:55.512783 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+EXCHANGE TABLES `kba_silver`.`silver_sales__dbt_backup` AND `kba_silver`.`silver_sales` 
+  
+  ...
+[0m20:16:55.564649 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:16:55.577286 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_sales: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_sales"} */
+drop table if exists `kba_silver`.`silver_sales__dbt_backup` 
+  ...
+[0m20:16:55.626044 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.05 seconds
+[0m20:16:55.629048 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023314983A50>]}
+[0m20:16:55.631322 [info ] [Thread-1 (]: 4 of 5 OK created sql table model `kba_silver`.`silver_sales` .................. [[32mOK[0m in 0.45s]
+[0m20:16:55.636896 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_sales
+[0m20:16:55.638464 [debug] [Thread-1 (]: Began running node model.kba_kelompok_7.silver_target_penjualan
+[0m20:16:55.639709 [info ] [Thread-1 (]: 5 of 5 START sql table model `kba_silver`.`silver_target_penjualan` ............ [RUN]
+[0m20:16:55.641624 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.kba_kelompok_7.silver_sales, now model.kba_kelompok_7.silver_target_penjualan)
+[0m20:16:55.642730 [debug] [Thread-1 (]: Began compiling node model.kba_kelompok_7.silver_target_penjualan
+[0m20:16:55.652606 [debug] [Thread-1 (]: Writing injected SQL for node "model.kba_kelompok_7.silver_target_penjualan"
+[0m20:16:55.660457 [debug] [Thread-1 (]: Began executing node model.kba_kelompok_7.silver_target_penjualan
+[0m20:16:55.668572 [debug] [Thread-1 (]: Creating new relation silver_target_penjualan
+[0m20:16:55.672895 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_target_penjualan: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_target_penjualan"} */
+
+            
+
+    
+        create table `kba_silver`.`silver_target_penjualan`
+        
+  
+        
+  engine = MergeTree()
+        
+      order by (tuple())
+        
+        
+        
+        
+                    -- end_of_sql
+                    SETTINGS replicated_deduplication_window='0'
+
+                    
+            empty
+          as (
+            
+
+WITH raw_target AS (
+    SELECT * FROM kba_bronze.target_penjualan
+)
+
+SELECT
+    -- Ubah teks jadi format Tanggal
+    toDateOrNull(month) AS periode_bulan,
+    
+    -- Ubah teks jadi angka desimal
+    toFloat64OrNull(target_sales) AS target_penjualan
+
+FROM raw_target
+WHERE month IS NOT NULL AND month != ''
+          )
+        
+        ...
+[0m20:16:55.746753 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.07 seconds
+[0m20:16:55.758738 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_target_penjualan: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_target_penjualan"} */
+
+    select name, type from system.columns where table = 'silver_target_penjualan'
+    
+      
+        and database = 'kba_silver'
+      
+    
+    order by position
+  ...
+[0m20:16:55.822838 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.06 seconds
+[0m20:16:55.826972 [debug] [Thread-1 (]: Writing runtime sql for node "model.kba_kelompok_7.silver_target_penjualan"
+[0m20:16:55.829314 [debug] [Thread-1 (]: dbt_clickhouse adapter: On model.kba_kelompok_7.silver_target_penjualan: /* {"app": "dbt", "dbt_version": "1.11.8", "profile_name": "kba_clickhouse", "target_name": "dev", "node_id": "model.kba_kelompok_7.silver_target_penjualan"} */
+
+  
+    
+    
+    
+        
+         
+
+
+        
+  
+
+  insert into `kba_silver`.`silver_target_penjualan`
+        ("periode_bulan", "target_penjualan")
+
+WITH raw_target AS (
+    SELECT * FROM kba_bronze.target_penjualan
+)
+
+SELECT
+    -- Ubah teks jadi format Tanggal
+    toDateOrNull(month) AS periode_bulan,
+    
+    -- Ubah teks jadi angka desimal
+    toFloat64OrNull(target_sales) AS target_penjualan
+
+FROM raw_target
+WHERE month IS NOT NULL AND month != ''
+  ...
+[0m20:16:55.913959 [debug] [Thread-1 (]: dbt_clickhouse adapter: SQL status: OK in 0.08 seconds
+[0m20:16:55.922811 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea8f362c-2391-48d8-9eb7-7684ac09bf56', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000233145F7540>]}
+[0m20:16:55.924873 [info ] [Thread-1 (]: 5 of 5 OK created sql table model `kba_silver`.`silver_target_penjualan` ....... [[32mOK[0m in 0.28s]
+[0m20:16:55.927056 [debug] [Thread-1 (]: Finished running node model.kba_kelompok_7.silver_target_penjualan
+[0m20:16:55.930829 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m20:16:55.931986 [debug] [MainThread]: Connection 'list_' was left open.
+[0m20:16:55.933251 [debug] [MainThread]: On list_: Close
+[0m20:16:55.935306 [debug] [MainThread]: Connection 'list__kba_silver' was left open.
+[0m20:16:55.937877 [debug] [MainThread]: On list__kba_silver: Close
+[0m20:16:55.939829 [debug] [MainThread]: Connection 'model.kba_kelompok_7.silver_target_penjualan' was left open.
+[0m20:16:55.941061 [debug] [MainThread]: On model.kba_kelompok_7.silver_target_penjualan: Close
+[0m20:16:55.942932 [info ] [MainThread]: 
+[0m20:16:55.944442 [info ] [MainThread]: Finished running 5 table models in 0 hours 0 minutes and 5.37 seconds (5.37s).
+[0m20:16:55.950139 [debug] [MainThread]: Command end result
+[0m20:16:56.045781 [debug] [MainThread]: Wrote artifact WritableManifest to D:\naufal\kba_kelompok_7\etl_kba\target\manifest.json
+[0m20:16:56.054492 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\naufal\kba_kelompok_7\etl_kba\target\semantic_manifest.json
+[0m20:16:56.076262 [debug] [MainThread]: Wrote artifact RunExecutionResult to D:\naufal\kba_kelompok_7\etl_kba\target\run_results.json
+[0m20:16:56.077517 [info ] [MainThread]: 
+[0m20:16:56.078777 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m20:16:56.080043 [info ] [MainThread]: 
+[0m20:16:56.081147 [info ] [MainThread]: Done. PASS=5 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=5
+[0m20:16:56.083971 [debug] [MainThread]: Command `dbt run` succeeded at 20:16:56.083304 after 7.00 seconds
+[0m20:16:56.085640 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023310C1D550>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023314C5FAD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000023314C5FA70>]}
+[0m20:16:56.088088 [debug] [MainThread]: Flushing usage events
+[0m20:16:58.234098 [debug] [MainThread]: An error was encountered while trying to flush usage events
