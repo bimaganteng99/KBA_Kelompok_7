@@ -53,7 +53,7 @@ Proyek ini menggunakan Python untuk ekstraksi data dan `dbt` untuk transformasi.
 Jalankan perintah berikut di terminal:
 ```bash
 # Membuat environment variable
-python venv env
+python -m venv env
 
 # Mengaktifkan virtual environment (Windows)
 .\env\Scripts\activate
@@ -98,18 +98,6 @@ cd etl_kba
 dbt run --profiles-dir .
 ```
 *Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=5` di terminal.*
-
----
-
-## 📊 Visualisasi (Metabase)
-Setelah Layer Silver siap, data sudah bisa digunakan untuk membangun dasbor KPI.
-1. Buka Metabase di browser: [http://localhost:3000](http://localhost:3000)
-2. Hubungkan Metabase ke ClickHouse dengan konfigurasi berikut:
-   - **Host:** `postgres` *(atau menggunakan jaringan internal Docker)* / `localhost`
-   - **Port:** `8123` *(Port HTTP ClickHouse)*
-   - **Database Name:** `default`
-   - **Username:** `default`
-   - **Password:** *(kosongkan)*
 
 ---
 

@@ -13,7 +13,7 @@
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: trialproyek_postgres
+    container_name: kba7_postgres
     ports:
       - "5433:5432"
     restart: unless-stopped
@@ -34,7 +34,7 @@ services:
   
   odoo_filestore_init:
     image: alpine:3.20
-    container_name: trialproyek_odoo_filestore_init
+    container_name: kba7_odoo_filestore_init
     volumes:
       - odoo_data:/var/lib/odoo
       - ./data/filestore_odoo:/backup:ro
@@ -60,7 +60,7 @@ services:
 
   odoo:
     image: odoo:17.0
-    container_name: trialproyek_odoo
+    container_name: kba7_odoo
     ports:
       - "8069:8069"
     restart: unless-stopped
@@ -84,7 +84,7 @@ services:
 
   clickhouse:
     image: clickhouse/clickhouse-server:24.3
-    container_name: trialproyek_clickhouse
+    container_name: kba7_clickhouse
     restart: unless-stopped
     ports:
       - "8123:8123"
@@ -106,7 +106,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.metabase
-    container_name: trialproyek_metabase
+    container_name: kba7_metabase
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -127,14 +127,14 @@ services:
 
 volumes:
   postgres_data:
-    name: trialproyek_postgres_data
+    name: kba7_postgres_data
   clickhouse_data:
-    name: trialproyek_clickhouse_data
+    name: kba7_clickhouse_data
   metabase_data:
-    name: trialproyek_metabase_data
+    name: kba7_metabase_data
   odoo_data:
-    name: trialproyek_odoo_data
+    name: kba7_odoo_data
 
 networks:
   default:
-    name: trialproyek_network
+    name: kba7_network

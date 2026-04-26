@@ -1,4 +1,6 @@
 pandas 
 psycopg2 
 clickhouse-driver 
-dbt-clickhouse
+dbt-core==1.11.8
+dbt-clickhouse==1.10.0
+openpyxl
