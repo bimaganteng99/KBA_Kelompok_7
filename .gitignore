@@ -1,5 +1,7 @@
 # environment variables
 .env
-env
+env/
 # dbt artifacts
-etl_kba*
+etl_kba/target/
+etl_kba/logs/
+etl_kba/dbt_packages/
