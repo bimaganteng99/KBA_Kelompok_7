@@ -63,6 +63,8 @@ pip install -r requirements.txt
 pip install "mashumaro[msgpack]>=3.17"
 ```
 
+---
+
 ### 2. Ekstraksi Data Mentah (Layer Bronze)
 Skrip Python digunakan untuk menyedot data dari PostgreSQL (Odoo) dan file manual (CSV/XLSX), lalu memasukkannya ke layer `kba_bronze` di ClickHouse dengan format teks murni (String) menggunakan metode *Full Load*.
 
@@ -74,11 +76,15 @@ python scripts_python/extract_to_bronze.py
 ```
 *Tanda sukses: Muncul indikator "Data ... berhasil masuk!" untuk 12 tabel.*
 
+---
+
 ### 3. Transformasi & Pembersihan (Layer Silver)
 Setelah data mentah masuk ke Bronze, kita menggunakan **dbt (data build tool)** untuk membersihkan data tersebut ke layer `kba_silver`. Proses ini meliputi:
 - Konversi tipe data (String menjadi Int, Float, atau Date).
 - Penanganan nilai kosong/Null.
 - Standarisasi nama kolom ke Bahasa Indonesia.
+
+Selain itu, untuk analisis pergerakan barang berdasarkan transaksi **outgoing** (barang keluar/terjual), kami membangun tabel fitur **`kba_silver.silver_fitur_movement_bulanan`** yang berisi fitur *per-produk-per-bulan* yang akan digunakan sebagai input analisis KPI dan segmentasi.
 
 Tabel yang dihasilkan pada Layer Silver:
 - `silver_sales` (dari Odoo)
@@ -110,52 +116,28 @@ dbt run --profiles-dir .
 
 ### 4. Slow Moving (KPI) & Segmentasi Produk (KMeans) — Layer Silver
 
-Setelah data mentah masuk ke layer **Bronze** (`kba_bronze`), kami menggunakan **dbt (data build tool)** untuk membangun layer **Silver** (`kba_silver`). Tahapan ini bertujuan membuat data siap dianalisis, dengan proses utama:
-
-- Konversi tipe data (String → Int/Float/Date/DateTime).
-- Pembersihan nilai kosong/NULL.
-- Standarisasi nama kolom (menggunakan Bahasa Indonesia).
-- Penyusunan tabel fitur (feature engineering) untuk analitik.
-
-#### 4.1. Tabel Fitur: Movement Bulanan
-Untuk analisis pergerakan barang berdasarkan transaksi **outgoing** (barang keluar/terjual), kami membangun tabel fitur **`kba_silver.silver_fitur_movement_bulanan`** yang berisi fitur *per-produk-per-bulan*:
-- `frekuensi_transaksi`
-- `total_qty_terjual_keluar`
-- `rata2_qty_per_transaksi`
-- `max_qty_per_transaksi`
-- `jeda_hari_dari_transaksi_terakhir`
-
-Fitur-fitur ini digunakan sebagai input analisis KPI dan segmentasi.
-
-#### 4.2. KPI Slow Moving (Rule-based)
 Untuk kebutuhan KPI operasional, kami menerapkan definisi slow moving secara **absolut**. Produk dinyatakan **slow moving** jika:
 - Tidak terjual selama **≥ 30 hari** (`jeda_hari_dari_transaksi_terakhir >= 30`), **atau**
 - Total terjual dalam bulan tersebut **< 10** (`total_qty_terjual_keluar < 10`)
 
-Output KPI disimpan pada tabel **`kba_silver.silver_slow_moving_bulanan`** (kolom utama: `is_slow_moving_kpi`, `kpi_reason`)
+Output KPI disimpan pada tabel **`kba_silver.silver_slow_moving_bulanan`** (kolom utama: `is_slow_moving_kpi`, `kpi_reason`). Tujuan KPI ini adalah menghasilkan status slow moving yang konsisten dan dapat diaudit karena berbasis rule yang jelas.
 
-Tujuan KPI ini adalah menghasilkan status slow moving yang konsisten dan dapat diaudit karena berbasis rule yang jelas.
-
-#### 4.3. Segmentasi Demand dengan KMeans (Unsupervised, Relatif)
-Selain KPI, kami menggunakan **KMeans Clustering** untuk melakukan **segmentasi pola transaksi produk** yang bersifat relatif. Segmentasi ini membantu memahami karakter transaksi tiap produk (seperti sering dibeli dalam jumlah kecil vs jarang dibeli tapi dibeli dalam jumlah besar), dan tidak digunakan sebagai penentu KPI utama.
-
-Fitur yang digunakan untuk KMeans:
-- `frekuensi_transaksi`
-- `total_qty_terjual_keluar`
-- `rata2_qty_per_transaksi`
-- `max_qty_per_transaksi`
-
-Hasil segmentasi disimpan dalam tabel yang sama, yaitu **`kba_silver.silver_slow_moving_bulanan`** (kolom: `cluster_id`, `demand_segment`)
+Kemudian, kami menggunakan **KMeans Clustering** untuk melakukan **segmentasi pola transaksi produk** yang bersifat relatif. Segmentasi ini membantu memahami karakter transaksi tiap produk (seperti sering dibeli dalam jumlah kecil vs jarang dibeli tapi dibeli dalam jumlah besar), dan tidak digunakan sebagai penentu KPI utama. Hasil segmentasi disimpan dalam tabel yang sama, yaitu **`kba_silver.silver_slow_moving_bulanan`** (kolom: `cluster_id`, `demand_segment`)
 
 Interpretasi segmen:
 - `frequent_small`  → sering transaksi, qty per transaksi kecil (memiliki pola ritel)
 - `rare_bulk`       → jarang transaksi, namun qty besar (memiliki pola grosir)
 - `balanced_regular`→ pola transaksi dan volume stabil/menengah
 
-
 > **KPI Slow Moving** digunakan untuk penilaian performa dan pelaporan karena definisinya absolut dan tidak harus selalu ada slow moving. **KMeans** digunakan untuk segmentasi/insight (seperti strategi replenishment dan interpretasi perilaku transaksi), bukan sebagai definisi KPI. Sebuah produk bisa berada pada segmen pola transaksi tertentu, tapi tetap bisa memenuhi/tidak memenuhi KPI slow moving.
 
 ---
+
+Untuk memulai proses analitik KMeans Clustering, jalankan kode berikut di root proyek:
+```
+python scripts_python/kmeans_cluster_movement_bulanan.py
+```
+Setelah proses selesai, akan tampil ringkasan KPI dan ringkasan segment di terminal.Output dari proses ini dapat dilihat di Clickhouse pada tabel **`kba_silver.silver_slow_moving_bulanan`**
 
 ## Catatan Troubleshooting
 - **Conflict Port 5432:** Jika ada PostgreSQL bawaan yang berjalan di laptop, koneksi ke Odoo dari luar Docker diubah menggunakan port `5433` (seperti yang terkonfigurasi di `docker-compose.yml` dan `extract_to_bronze.py`).
