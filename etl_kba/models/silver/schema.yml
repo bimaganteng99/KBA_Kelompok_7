@@ -1,5 +1,10 @@
 version: 2
 
+sources:
+  - name: external_python
+    schema: kba_silver
+    tables:
+      - name: silver_slow_moving_bulanan
 models:
   - name: silver_products
     columns:
