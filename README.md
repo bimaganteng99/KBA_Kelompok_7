@@ -41,9 +41,7 @@ password : adminkba7
 ```
 Jika instalasi berhasil, modul Purchase, Inventory, dan Sales sudah terpasang dan berisi data.
 
----
-
-## ⚙️ Eksekusi Pipeline Data (ETL)
+## Eksekusi Pipeline Data (ETL)
 
 Setelah Odoo berjalan dan berisi data, langkah selanjutnya adalah menarik data tersebut ke Data Warehouse (ClickHouse) dan membersihkannya menggunakan arsitektur Medallion.
 
@@ -93,6 +91,8 @@ Tabel yang dihasilkan pada Layer Silver:
 - `silver_stock_picking_type` (dari Odoo)
 - `silver_stock_move` (dari Odoo)
 - `silver_stock_valuation` (dari Odoo)
+- `silver_stock_fitur_movement_bulanan` (dari Odoo)
+- `silver_stock_value` (dari Odoo)
 - `silver_target_penjualan` (dari CSV)
 - `silver_alokasi_anggaran` (dari Excel)
 
@@ -104,12 +104,61 @@ cd etl_kba
 # Jalankan model dbt (menggunakan dbt_project.yml dan profiles.yml di folder saat ini)
 dbt run --profiles-dir .
 ```
-*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=12` di terminal.*
+*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=14` di terminal.*
 
 ---
 
-## 💡 Catatan Troubleshooting
-- **Conflict Port 5432:** Jika kamu memiliki PostgreSQL bawaan yang berjalan di laptop, koneksi ke Odoo dari luar Docker diubah menggunakan port `5433` (seperti yang terkonfigurasi di `docker-compose.yml` dan `extract_to_bronze.py`).
+### 4. Slow Moving (KPI) & Segmentasi Produk (KMeans) — Layer Silver
+
+Setelah data mentah masuk ke layer **Bronze** (`kba_bronze`), kami menggunakan **dbt (data build tool)** untuk membangun layer **Silver** (`kba_silver`). Tahapan ini bertujuan membuat data siap dianalisis, dengan proses utama:
+
+- Konversi tipe data (String → Int/Float/Date/DateTime).
+- Pembersihan nilai kosong/NULL.
+- Standarisasi nama kolom (menggunakan Bahasa Indonesia).
+- Penyusunan tabel fitur (feature engineering) untuk analitik.
+
+#### 4.1. Tabel Fitur: Movement Bulanan
+Untuk analisis pergerakan barang berdasarkan transaksi **outgoing** (barang keluar/terjual), kami membangun tabel fitur **`kba_silver.silver_fitur_movement_bulanan`** yang berisi fitur *per-produk-per-bulan*:
+- `frekuensi_transaksi`
+- `total_qty_terjual_keluar`
+- `rata2_qty_per_transaksi`
+- `max_qty_per_transaksi`
+- `jeda_hari_dari_transaksi_terakhir`
+
+Fitur-fitur ini digunakan sebagai input analisis KPI dan segmentasi.
+
+#### 4.2. KPI Slow Moving (Rule-based)
+Untuk kebutuhan KPI operasional, kami menerapkan definisi slow moving secara **absolut**. Produk dinyatakan **slow moving** jika:
+- Tidak terjual selama **≥ 30 hari** (`jeda_hari_dari_transaksi_terakhir >= 30`), **atau**
+- Total terjual dalam bulan tersebut **< 10** (`total_qty_terjual_keluar < 10`)
+
+Output KPI disimpan pada tabel **`kba_silver.silver_slow_moving_bulanan`** (kolom utama: `is_slow_moving_kpi`, `kpi_reason`)
+
+Tujuan KPI ini adalah menghasilkan status slow moving yang konsisten dan dapat diaudit karena berbasis rule yang jelas.
+
+#### 4.3. Segmentasi Demand dengan KMeans (Unsupervised, Relatif)
+Selain KPI, kami menggunakan **KMeans Clustering** untuk melakukan **segmentasi pola transaksi produk** yang bersifat relatif. Segmentasi ini membantu memahami karakter transaksi tiap produk (seperti sering dibeli dalam jumlah kecil vs jarang dibeli tapi dibeli dalam jumlah besar), dan tidak digunakan sebagai penentu KPI utama.
+
+Fitur yang digunakan untuk KMeans:
+- `frekuensi_transaksi`
+- `total_qty_terjual_keluar`
+- `rata2_qty_per_transaksi`
+- `max_qty_per_transaksi`
+
+Hasil segmentasi disimpan dalam tabel yang sama, yaitu **`kba_silver.silver_slow_moving_bulanan`** (kolom: `cluster_id`, `demand_segment`)
+
+Interpretasi segmen:
+- `frequent_small`  → sering transaksi, qty per transaksi kecil (memiliki pola ritel)
+- `rare_bulk`       → jarang transaksi, namun qty besar (memiliki pola grosir)
+- `balanced_regular`→ pola transaksi dan volume stabil/menengah
+
+
+> **KPI Slow Moving** digunakan untuk penilaian performa dan pelaporan karena definisinya absolut dan tidak harus selalu ada slow moving. **KMeans** digunakan untuk segmentasi/insight (seperti strategi replenishment dan interpretasi perilaku transaksi), bukan sebagai definisi KPI. Sebuah produk bisa berada pada segmen pola transaksi tertentu, tapi tetap bisa memenuhi/tidak memenuhi KPI slow moving.
+
+---
+
+## Catatan Troubleshooting
+- **Conflict Port 5432:** Jika ada PostgreSQL bawaan yang berjalan di laptop, koneksi ke Odoo dari luar Docker diubah menggunakan port `5433` (seperti yang terkonfigurasi di `docker-compose.yml` dan `extract_to_bronze.py`).
 - **Akses DBeaver/Terminal ClickHouse:** Gunakan port `8123` untuk DBeaver atau jalankan `docker exec -it trialproyek_clickhouse clickhouse-client` untuk masuk langsung via terminal.
 
 ---
