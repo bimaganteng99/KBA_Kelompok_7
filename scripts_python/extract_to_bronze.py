@@ -6,16 +6,16 @@ import warnings
 # Matikan warning Pandas agar terminalmu tetap bersih
 warnings.filterwarnings('ignore')
 
-# --- 1. KONEKSI ---
+# Koneksi
 pg_conn = psycopg2.connect(
     host="127.0.0.1", port=5433, database="odoo", user="odoo", password="odoo"
 )
 ch_client = Client(host='localhost', port=9000, user='default', password='')
 ch_client.execute('CREATE DATABASE IF NOT EXISTS kba_bronze')
 
-# --- FUNGSI SAKTI ---
+# Ingestion
 def sedot_ke_clickhouse(df, nama_tabel):
-    # SAPU JAGAT: Paksa setiap sel tanpa ampun jadi String. Kalau kosong (NaN), jadikan teks kosong ""
+    # Paksa setiap sel tanpa ampun jadi String. Kalau kosong (NaN), jadikan teks kosong ""
     for col in df.columns:
         df[col] = df[col].apply(lambda x: "" if pd.isna(x) else str(x))
         
@@ -27,9 +27,10 @@ def sedot_ke_clickhouse(df, nama_tabel):
     ch_client.execute(f'INSERT INTO kba_bronze.{nama_tabel} VALUES', df.to_dict('records'))
     print(f"Data {nama_tabel} berhasil masuk!")
 
-# --- 2. PROSES ODOO POSTGRES ---
+# ODOO POSTGRES
 print("Menyedot data dari Odoo Postgres...")
-tabel_odoo = ['sale_order', 'purchase_order', 'stock_quant'] 
+# tambah tabel
+tabel_odoo = ['sale_order', 'purchase_order', 'stock_quant', 'stock_picking', 'stock_move', 'stock_move_line', 'product_product', 'product_template', 'stock_valuation_layer'] 
 for tabel in tabel_odoo:
     try:
         df_odoo = pd.read_sql(f"SELECT * FROM {tabel}", pg_conn)
@@ -38,7 +39,7 @@ for tabel in tabel_odoo:
         print(f"Gagal menarik {tabel}: {e}")
         pg_conn.rollback()
 
-# --- 3. PROSES FILE MANUAL ---
+# FILE MANUAL
 print("\nMembaca data file manual...")
 try:
     df_target = pd.read_csv('data/raw/target_sales_simple.csv')

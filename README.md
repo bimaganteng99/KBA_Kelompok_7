@@ -74,10 +74,10 @@ Jalankan skrip ekstraksi:
 ```bash
 python scripts_python/extract_to_bronze.py
 ```
-*Tanda sukses: Muncul indikator "Data ... berhasil masuk!" untuk kelima tabel.*
+*Tanda sukses: Muncul indikator "Data ... berhasil masuk!" untuk 11 tabel.*
 
 ### 3. Transformasi & Pembersihan (Layer Silver)
-Setelah data mentah masuk ke Bronze, kita menggunakan **dbt (data build tool)** untuk mencuci data tersebut ke layer `kba_silver`. Proses ini meliputi:
+Setelah data mentah masuk ke Bronze, kita menggunakan **dbt (data build tool)** untuk membersihkan data tersebut ke layer `kba_silver`. Proses ini meliputi:
 - Konversi tipe data (String menjadi Int, Float, atau Date).
 - Penanganan nilai kosong/Null.
 - Standarisasi nama kolom ke Bahasa Indonesia.
@@ -86,6 +86,12 @@ Tabel yang dihasilkan pada Layer Silver:
 - `silver_sales` (dari Odoo)
 - `silver_purchase` (dari Odoo)
 - `silver_inventory` (dari Odoo)
+- `silver_products` (dari Odoo)
+- `silver_purchase_on_time` (dari Odoo)
+- `silver_stock_move_line` (dari Odoo)
+- `silver_stock_picking` (dari Odoo)
+- `silver_stock_move` (dari Odoo)
+- `silver_stock_valuation` (dari Odoo)
 - `silver_target_penjualan` (dari CSV)
 - `silver_alokasi_anggaran` (dari Excel)
 
@@ -97,7 +103,7 @@ cd etl_kba
 # Jalankan model dbt (menggunakan dbt_project.yml dan profiles.yml di folder saat ini)
 dbt run --profiles-dir .
 ```
-*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=5` di terminal.*
+*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=11` di terminal.*
 
 ---
 
