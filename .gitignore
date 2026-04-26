@@ -2,5 +2,5 @@
 .env
 env
 # dbt artifacts
-etl_kba\target
+etl_kba/target
 etl_kba\logs
