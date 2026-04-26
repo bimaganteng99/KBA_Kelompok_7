@@ -10,7 +10,7 @@
         
   
 
-  insert into `kba_silver`.`silver_inventory__dbt_backup`
+  insert into `kba_silver`.`silver_inventory`
         ("id_stok", "id_produk", "id_lokasi", "jumlah_stok")
 
 WITH raw_inventory AS (

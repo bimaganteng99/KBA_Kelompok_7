@@ -10,7 +10,7 @@
         
   
 
-  insert into `kba_silver`.`silver_sales__dbt_backup`
+  insert into `kba_silver`.`silver_sales`
         ("id_penjualan", "nomor_nota", "tanggal_transaksi", "total_belanja", "status_transaksi")
 
 WITH raw_sales AS (
