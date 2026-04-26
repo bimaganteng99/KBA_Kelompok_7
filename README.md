@@ -45,18 +45,21 @@ Jika instalasi berhasil, modul Purchase, Inventory, dan Sales sudah terpasang da
 
 ## ⚙️ Eksekusi Pipeline Data (ETL)
 
-Setelah Odoo berjalan dan berisi data, langkah selanjutnya adalah menarik data tersebut ke Data Warehouse (ClickHouse) dan membersihkannya menggunakan arsitektur Medallion (Bronze & Silver).
+Setelah Odoo berjalan dan berisi data, langkah selanjutnya adalah menarik data tersebut ke Data Warehouse (ClickHouse) dan membersihkannya menggunakan arsitektur Medallion.
 
 ### 1. Persiapan Environment Python
 Proyek ini menggunakan Python untuk ekstraksi data dan `dbt` untuk transformasi. Pastikan kamu menggunakan Virtual Environment.
 
 Jalankan perintah berikut di terminal:
 ```bash
+# Membuat environment variable
+python venv env
+
 # Mengaktifkan virtual environment (Windows)
 .\env\Scripts\activate
 
 # Instalasi library utama
-pip install pandas psycopg2 clickhouse-driver dbt-clickhouse
+pip install -r requirements.txt
 
 # FIX PENTING untuk pengguna Python 3.14+ (Mengatasi error mashumaro pada dbt)
 pip install "mashumaro[msgpack]>=3.17"
