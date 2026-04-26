@@ -16,7 +16,7 @@ Pastikan perangkat sudah memiliki ini:
 
 Jalankan kode berikut untuk melakukan clone repository.
 ```bash
-git clone [https://github.com/bimaganteng99/KBA_Kelompok_7.git](https://github.com/bimaganteng99/KBA_Kelompok_7.git)
+git clone https://github.com/bimaganteng99/KBA_Kelompok_7.git
 ```
 
 ### Buat file .env
@@ -74,7 +74,7 @@ Jalankan skrip ekstraksi:
 ```bash
 python scripts_python/extract_to_bronze.py
 ```
-*Tanda sukses: Muncul indikator "Data ... berhasil masuk!" untuk 11 tabel.*
+*Tanda sukses: Muncul indikator "Data ... berhasil masuk!" untuk 12 tabel.*
 
 ### 3. Transformasi & Pembersihan (Layer Silver)
 Setelah data mentah masuk ke Bronze, kita menggunakan **dbt (data build tool)** untuk membersihkan data tersebut ke layer `kba_silver`. Proses ini meliputi:
@@ -90,6 +90,7 @@ Tabel yang dihasilkan pada Layer Silver:
 - `silver_purchase_on_time` (dari Odoo)
 - `silver_stock_move_line` (dari Odoo)
 - `silver_stock_picking` (dari Odoo)
+- `silver_stock_picking_type` (dari Odoo)
 - `silver_stock_move` (dari Odoo)
 - `silver_stock_valuation` (dari Odoo)
 - `silver_target_penjualan` (dari CSV)
@@ -103,11 +104,12 @@ cd etl_kba
 # Jalankan model dbt (menggunakan dbt_project.yml dan profiles.yml di folder saat ini)
 dbt run --profiles-dir .
 ```
-*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=11` di terminal.*
+*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=12` di terminal.*
 
 ---
 
 ## 💡 Catatan Troubleshooting
 - **Conflict Port 5432:** Jika kamu memiliki PostgreSQL bawaan yang berjalan di laptop, koneksi ke Odoo dari luar Docker diubah menggunakan port `5433` (seperti yang terkonfigurasi di `docker-compose.yml` dan `extract_to_bronze.py`).
 - **Akses DBeaver/Terminal ClickHouse:** Gunakan port `8123` untuk DBeaver atau jalankan `docker exec -it trialproyek_clickhouse clickhouse-client` untuk masuk langsung via terminal.
-```
+
+---
