@@ -1,0 +1,159 @@
+version: 2
+
+models:
+  - name: silver_products
+    columns:
+      - name: id_produk
+        tests: [not_null, unique]
+
+  - name: silver_inventory
+    columns:
+      - name: id_stok
+        tests: [not_null, unique]
+      - name: id_produk
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_products')
+                field: id_produk
+      - name: jumlah_stok
+        tests: [not_null]
+
+  - name: silver_sales
+    columns:
+      - name: id_penjualan
+        tests: [not_null, unique]
+      - name: tanggal_transaksi
+        tests: [not_null]
+      - name: total_belanja
+        tests: [not_null]
+      - name: status_transaksi
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['draft', 'sent', 'sale', 'done', 'cancel']
+              quote: true
+
+  - name: silver_purchase
+    columns:
+      - name: id_pembelian
+        tests: [not_null, unique]
+      - name: tanggal_transaksi
+        tests: [not_null]
+      - name: total_belanja
+        tests: [not_null]
+      - name: status_transaksi
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['draft', 'purchase', 'done', 'cancel']
+              quote: true
+
+  - name: silver_purchase_on_time
+    columns:
+      - name: id_purchase
+        tests: [not_null, unique]
+      - name: po_date_order
+        tests: [not_null]
+      - name: po_date_planned
+        tests: [not_null]
+
+  - name: silver_target_penjualan
+    columns:
+      - name: periode_bulan
+        tests: [not_null, unique]
+      - name: target_penjualan
+        tests: [not_null]
+
+  - name: silver_alokasi_anggaran
+    columns:
+      - name: periode_bulan
+        tests: [not_null, unique]
+      - name: jumlah_anggaran
+        tests: [not_null]
+
+  - name: silver_stock_valuation
+    columns:
+      - name: id_valuation_layer
+        tests: [not_null, unique]
+      - name: id_produk
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_products')
+                field: id_produk
+      - name: created_at
+        tests: [not_null]
+      - name: remaining_value
+        tests: [not_null]
+
+  - name: silver_stock_value
+    columns:
+      - name: periode_bulan
+        tests: [not_null]
+      - name: id_produk
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_products')
+                field: id_produk
+      - name: nilai_stok
+        tests: [not_null]
+
+  - name: silver_fitur_movement_bulanan
+    columns:
+      - name: id_produk
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_products')
+                field: id_produk
+      - name: periode_bulan
+        tests: [not_null]
+      - name: frekuensi_transaksi
+        tests: [not_null]
+      - name: total_qty_terjual_keluar
+        tests: [not_null]
+      - name: jeda_hari_dari_transaksi_terakhir
+        tests: [not_null]
+
+  - name: silver_stock_move_line
+    columns:
+      - name: id_move_line
+        tests: [not_null, unique]
+      - name: id_produk
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_products')
+                field: id_produk
+
+  - name: silver_stock_move
+    columns:
+      - name: id_move
+        tests: [not_null, unique]
+      - name: id_produk
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_products')
+                field: id_produk
+
+  - name: silver_stock_picking
+    columns:
+      - name: id_picking
+        tests: [not_null, unique]
+
+  - name: silver_stock_picking_type
+    columns:
+      - name: id_tipe_picking
+        tests: [not_null, unique]
+      - name: kode_tipe_picking
+        tests:
+          - accepted_values:
+              values: ['incoming', 'outgoing', 'internal']
+              quote: true

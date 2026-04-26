@@ -13,3 +13,4 @@ SELECT
 
 FROM raw_purchase
 WHERE id IS NOT NULL AND id != ''
+  AND toDateTimeOrNull(date_order) IS NOT NULL

@@ -21,5 +21,6 @@ SELECT
     state AS status_transaksi
 
 FROM raw_sales
--- 5. Membuang baris yang ID-nya kosong/cacat
+-- 5. Membuang baris yang ID-nya kosong/cacat dan tanggalnya null
 WHERE id IS NOT NULL AND id != ''
+  AND toDateTimeOrNull(date_order) IS NOT NULL

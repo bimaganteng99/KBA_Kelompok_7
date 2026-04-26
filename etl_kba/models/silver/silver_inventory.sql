@@ -12,3 +12,4 @@ SELECT
 
 FROM raw_inventory
 WHERE id IS NOT NULL AND id != ''
+  AND toFloat64OrNull(quantity) IS NOT NULL

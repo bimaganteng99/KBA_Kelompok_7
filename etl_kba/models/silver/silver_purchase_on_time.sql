@@ -30,5 +30,7 @@ LEFT JOIN sp
     ON NULLIF(sp.origin, '') = NULLIF(po.name, '')
 
 WHERE po.id IS NOT NULL AND po.id != ''
+  AND toDateTimeOrNull(po.date_order) IS NOT NULL
+  AND toDateTimeOrNull(po.date_planned) IS NOT NULL
 GROUP BY
     id_purchase, nomor_po, id_vendor, status_po, po_date_order, po_date_planned

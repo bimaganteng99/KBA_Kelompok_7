@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 
--- Snapshot nilai stok per akhir bulan per produk dari silver_stock_valuation (remaining_value)
--- Ambil record terakhir (created_at paling besar) di bulan tsb
+-- Snapshot nilai stok per produk per bulan:
+-- ambil remaining_value TERAKHIR yang non-null pada bulan tsb.
 
 WITH v AS (
     SELECT
@@ -9,7 +9,7 @@ WITH v AS (
         toDate(toStartOfMonth(created_at)) AS periode_bulan,
         created_at,
         remaining_value
-    FROM kba_silver.silver_stock_valuation
+    FROM {{ ref('silver_stock_valuation') }}
     WHERE id_produk IS NOT NULL
       AND created_at IS NOT NULL
       AND remaining_value IS NOT NULL
