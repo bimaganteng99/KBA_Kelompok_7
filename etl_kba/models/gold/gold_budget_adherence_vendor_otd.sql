@@ -19,7 +19,7 @@ otd_agg AS (
 )
 
 SELECT 
-    p.periode_bulan,
+    p.periode_bulan AS periode_bulan,
     p.total_pengeluaran_po,
     a.jumlah_anggaran,
     (p.total_pengeluaran_po / NULLIF(a.jumlah_anggaran, 0)) * 100 AS budget_usage_pct,

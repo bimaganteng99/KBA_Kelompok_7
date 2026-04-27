@@ -82,7 +82,6 @@ python scripts_python/extract_to_bronze.py
 Setelah data mentah masuk ke Bronze, kami menggunakan **dbt (data build tool)** untuk membersihkan data tersebut ke layer `kba_silver`. Proses ini meliputi:
 - Konversi tipe data (String menjadi Int, Float, atau Date).
 - Penanganan nilai kosong/Null.
-- Standarisasi nama kolom ke Bahasa Indonesia.
 
 Selain itu, untuk analisis pergerakan barang berdasarkan transaksi **outgoing** (barang keluar/terjual), kami membangun tabel fitur **`kba_silver.silver_fitur_movement_bulanan`** yang berisi fitur *per-produk-per-bulan* yang akan digunakan sebagai input analisis KPI dan segmentasi.
 
@@ -117,10 +116,10 @@ dbt run --profiles-dir .
 ### 4. Slow Moving (KPI) & Segmentasi Produk (KMeans) — Layer Silver
 
 Untuk kebutuhan KPI operasional, kami menerapkan definisi slow moving secara **absolut**. Produk dinyatakan **slow moving** jika:
-- Tidak terjual selama **≥ 30 hari** (`jeda_hari_dari_transaksi_terakhir >= 30`), **atau**
-- Total terjual dalam bulan tersebut **< 10** (`total_qty_terjual_keluar < 10`)
+- `jeda_hari_dari_transaksi_terakhir >= 30`, **atau**
+- `total_qty_terjual_keluar < 10`
 
-Kemudian, kami menggunakan **KMeans Clustering** untuk melakukan **segmentasi pola transaksi produk** yang bersifat relatif. Segmentasi ini membantu memahami karakter transaksi tiap produk. Output KPI dan hasil segmentasi disimpan dalam tabel yang sama, yaitu **`kba_silver.silver_slow_moving_bulanan`**.
+Kemudian, kami menggunakan **KMeans Clustering** untuk melakukan **segmentasi pola transaksi produk** yang bersifat relatif. Output KPI dan hasil segmentasi disimpan dalam tabel yang sama, yaitu **`kba_silver.silver_slow_moving_bulanan`**.
 
 Interpretasi cluster/segmen:
 - `frequent_small`  → sering transaksi, qty per transaksi kecil (memiliki pola ritel)
@@ -129,6 +128,14 @@ Interpretasi cluster/segmen:
 
 > **KPI Slow Moving** digunakan untuk penilaian performa dan pelaporan karena definisinya absolut dan tidak harus selalu ada slow moving. **KMeans** digunakan untuk segmentasi/insight (seperti strategi replenishment dan interpretasi perilaku transaksi), bukan sebagai definisi KPI.
 
+### 5. Data Quality Test
+
+Meliputi pemeriksaan null value untuk kolom-kolom yang krusial untuk perhitungan KPI, seperti `id` dan `price`, serta pemeriksaan unique value untuk `id`. Jalankan kode berikut untuk melakukan pemeriksaan kualitas data:
+```
+dbt test --profiles-dir .
+```
+Jika hasil menunjukkan `Pass=62`, maka seluruh test berhasil terpenuhi dan data layak untuk diproses di tahap selanjutnya.
+
 ---
 
 Untuk memulai proses analitik KMeans Clustering, jalankan kode berikut di root proyek:
@@ -136,6 +143,21 @@ Untuk memulai proses analitik KMeans Clustering, jalankan kode berikut di root p
 python scripts_python/kmeans_cluster_movement_bulanan.py
 ```
 Setelah proses selesai, akan tampil ringkasan KPI dan ringkasan segment di terminal. Output dari proses ini dapat dilihat di Clickhouse pada tabel **`kba_silver.silver_slow_moving_bulanan`**
+
+### 6. Pembuatan Data Marts (Gold Layer)
+
+Data dari Silver Layer diagregasi untuk membentuk Data Marts, yaitu tabel-tabel siap pakai untuk visualisasi data sesuai KPI yang telah didefinsiikan. Jalankan kode berikut:
+```
+dbt run --select gold 
+```
+Jika hasil menunjukkan `Pass=3`, maka proses telah selesai dan tabel hasil pemrosesan dapat dilihat pada `kba_gold` di Clickhouse.
+
+### 7. Membuat Dashboard (Metabase)
+
+- Buka [localhost:3000](http://localhost:3000/), lalu lakukan pembuatan akun.
+- Pada Dashboard, pilih menu Databases dan pilih Add Database
+- Masukkan data yang diperlukan sesuai dengan konfigurasi proyek
+- Buat grafik dan Dashboard sesuai KPI yang telah didefinisikan
 
 ## Catatan Troubleshooting
 - **Conflict Port 5432:** Jika ada PostgreSQL bawaan yang berjalan di laptop, koneksi ke Odoo dari luar Docker diubah menggunakan port `5433` (seperti yang terkonfigurasi di `docker-compose.yml` dan `extract_to_bronze.py`).
