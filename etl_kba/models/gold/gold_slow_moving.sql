@@ -8,7 +8,7 @@ SELECT
     COALESCE(sm.is_slow_moving_kpi, 1) AS is_slow_moving,
     COALESCE(sm.demand_segment, 'dead_stock') AS demand_segment,
     COALESCE(sm.kpi_reason, 'no_movement_recorded') AS slow_moving_reason,
-    p.nama_produk
+    extract(p.nama_produk, '\'en_US\': \'([^/]+)\'') AS nama_produk
 FROM {{ ref('silver_stock_value') }} sv
 LEFT JOIN {{ source('external_python', 'silver_slow_moving_bulanan') }} sm 
     ON sv.id_produk = sm.id_produk 

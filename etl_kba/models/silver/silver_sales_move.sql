@@ -8,8 +8,8 @@ SELECT
     toInt32OrNull(toString(id)) AS id_move,
     toInt32OrNull(toString(product_id)) AS id_produk,
 
-    toDateTimeOrNull(toString(date)) AS tanggal,
-    toStartOfMonth(toDateTimeOrNull(toString(date))) AS periode_bulan,
+    toDateTime64OrNull(toString(date)) AS tanggal,
+    toStartOfMonth(toDateTime64OrNull(toString(date))) AS periode_bulan,
 
     toFloat64OrNull(toString(quantity)) AS qty, 
 

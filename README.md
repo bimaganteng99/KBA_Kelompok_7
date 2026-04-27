@@ -91,12 +91,13 @@ Tabel yang dihasilkan pada Layer Silver:
 - `silver_inventory` (dari Odoo)
 - `silver_products` (dari Odoo)
 - `silver_purchase_on_time` (dari Odoo)
+- `silver_sales_move` (dari Odoo)
 - `silver_stock_move_line` (dari Odoo)
 - `silver_stock_picking` (dari Odoo)
 - `silver_stock_picking_type` (dari Odoo)
 - `silver_stock_move` (dari Odoo)
 - `silver_stock_valuation` (dari Odoo)
-- `silver_stock_fitur_movement_bulanan` (dari Odoo)
+- `silver_fitur_movement_bulanan` (dari Odoo)
 - `silver_stock_value` (dari Odoo)
 - `silver_target_penjualan` (dari CSV)
 - `silver_alokasi_anggaran` (dari Excel)
@@ -109,7 +110,7 @@ cd etl_kba
 # Jalankan model dbt (menggunakan dbt_project.yml dan profiles.yml di folder saat ini)
 dbt run --profiles-dir .
 ```
-*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=14` di terminal.*
+*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=15` di terminal.*
 
 ---
 
@@ -128,7 +129,15 @@ Interpretasi cluster/segmen:
 
 > **KPI Slow Moving** digunakan untuk penilaian performa dan pelaporan karena definisinya absolut dan tidak harus selalu ada slow moving. **KMeans** digunakan untuk segmentasi/insight (seperti strategi replenishment dan interpretasi perilaku transaksi), bukan sebagai definisi KPI.
 
----
+### 5. Data Quality Test (1/2)
+
+Meliputi pemeriksaan null value untuk kolom-kolom yang krusial untuk perhitungan KPI, seperti `id` dan `price`, serta pemeriksaan unique value untuk `id`. Jalankan kode berikut untuk melakukan pemeriksaan kualitas data:
+```
+dbt test --profiles-dir . --select silver
+```
+Jika hasil menunjukkan `Pass=61`, maka seluruh test berhasil terpenuhi dan data layak untuk diproses di tahap selanjutnya.
+
+### 6. Analitik KMeans Clustering
 
 Untuk memulai proses analitik KMeans Clustering, jalankan kode berikut di root proyek:
 ```
@@ -136,23 +145,23 @@ python scripts_python/kmeans_cluster_movement_bulanan.py
 ```
 Setelah proses selesai, akan tampil ringkasan KPI dan ringkasan segment di terminal. Output dari proses ini dapat dilihat di Clickhouse pada tabel **`kba_silver.silver_slow_moving_bulanan`**
 
-### 5. Data Quality Test
+### 7. Data Quality Test (2/2)
 
-Meliputi pemeriksaan null value untuk kolom-kolom yang krusial untuk perhitungan KPI, seperti `id` dan `price`, serta pemeriksaan unique value untuk `id`. Jalankan kode berikut untuk melakukan pemeriksaan kualitas data:
+Memastikan is_slow_moving_kpi dan demand_segment lolos pemeriksaan accepted_value. Jalankan kode berikut:
 ```
-dbt test --profiles-dir .
+dbt test --select source:external_python.silver_slow_moving_bulanan
 ```
-Jika hasil menunjukkan `Pass=62`, maka seluruh test berhasil terpenuhi dan data layak untuk diproses di tahap selanjutnya.
+Setelah hasil menunjukkan `Pass=2` pemrosesan gold layer sudah dapat dilakukan.
 
-### 6. Pembuatan Data Marts (Gold Layer)
+### 8. Pembuatan Data Marts (Gold Layer)
 
 Data dari Silver Layer diagregasi untuk membentuk Data Marts, yaitu tabel-tabel siap pakai untuk visualisasi data sesuai KPI yang telah didefinsiikan. Jalankan kode berikut:
 ```
 dbt run --select gold 
 ```
-Jika hasil menunjukkan `Pass=3`, maka proses telah selesai dan tabel hasil pemrosesan dapat dilihat pada `kba_gold` di Clickhouse.
+Jika hasil menunjukkan `Pass=5`, maka proses telah selesai dan tabel hasil pemrosesan dapat dilihat pada `kba_gold` di Clickhouse.
 
-### 7. Membuat Dashboard (Metabase)
+### 9. Membuat Dashboard (Metabase)
 
 - Buka [localhost:3000](http://localhost:3000/), lalu lakukan pembuatan akun.
 - Pada Dashboard, pilih menu Databases dan pilih Add Database

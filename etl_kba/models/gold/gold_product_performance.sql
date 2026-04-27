@@ -38,7 +38,8 @@ base AS (
 SELECT 
     b.periode_bulan,
     b.id_produk,
-    p.nama_produk,
+    -- Menggunakan RegEx untuk mengambil teks di antara 'en_US': ' dan '
+    extract(p.nama_produk, '\'en_US\': \'([^/]+)\'') AS nama_produk,
 
     COALESCE(b.total_sales, 0) AS total_sales,
     COALESCE(b.total_qty, 0) AS total_qty,
