@@ -1,8 +1,8 @@
 {{ config(materialized='table') }}
 
 SELECT 
-    sv.periode_bulan,
-    sv.id_produk,
+    sv.periode_bulan as periode_bulanan,
+    sv.id_produk as id_produk,
     sv.nilai_stok,
     -- Labeling: Jika ada di hasil Python gunakan statusnya, jika tidak ada (null) tapi ada stok, maka pasti Slow/Dead
     COALESCE(sm.is_slow_moving_kpi, 1) AS is_slow_moving,

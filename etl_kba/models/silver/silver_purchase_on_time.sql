@@ -5,12 +5,16 @@ WITH po AS (
 ),
 sp AS (
     SELECT * FROM kba_bronze.stock_picking
+), 
+pr AS (
+    SELECT * FROM kba_bronze.res_partner
 )
 
 SELECT
     toInt32OrNull(po.id) AS id_purchase,
     NULLIF(po.name, '')  AS nomor_po,
     toInt32OrNull(po.partner_id) AS id_vendor,
+    NULLIF(pr.name, '')  AS nama_vendor,
     NULLIF(po.state, '') AS status_po,
 
     -- Tanggal order & planned (dari PO)
@@ -28,10 +32,12 @@ SELECT
 FROM po
 LEFT JOIN sp
     ON NULLIF(sp.origin, '') = NULLIF(po.name, '')
+LEFT JOIN pr
+    ON NULLIF(pr.id, '') = NULLIF(po.partner_id, '')
 
 WHERE po.id IS NOT NULL AND po.id != ''
   AND toDateTime64OrNull(po.date_order) IS NOT NULL
   AND toDateTime64OrNull(po.date_planned) IS NOT NULL
   AND toDateTime64OrNull(sp.date_done) IS NOT NULL
 GROUP BY
-    id_purchase, nomor_po, id_vendor, status_po, po_date_order, po_date_planned
+    id_purchase, nomor_po, id_vendor, nama_vendor, status_po, po_date_order, po_date_planned

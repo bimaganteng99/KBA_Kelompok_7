@@ -128,14 +128,6 @@ Interpretasi cluster/segmen:
 
 > **KPI Slow Moving** digunakan untuk penilaian performa dan pelaporan karena definisinya absolut dan tidak harus selalu ada slow moving. **KMeans** digunakan untuk segmentasi/insight (seperti strategi replenishment dan interpretasi perilaku transaksi), bukan sebagai definisi KPI.
 
-### 5. Data Quality Test
-
-Meliputi pemeriksaan null value untuk kolom-kolom yang krusial untuk perhitungan KPI, seperti `id` dan `price`, serta pemeriksaan unique value untuk `id`. Jalankan kode berikut untuk melakukan pemeriksaan kualitas data:
-```
-dbt test --profiles-dir .
-```
-Jika hasil menunjukkan `Pass=62`, maka seluruh test berhasil terpenuhi dan data layak untuk diproses di tahap selanjutnya.
-
 ---
 
 Untuk memulai proses analitik KMeans Clustering, jalankan kode berikut di root proyek:
@@ -143,6 +135,14 @@ Untuk memulai proses analitik KMeans Clustering, jalankan kode berikut di root p
 python scripts_python/kmeans_cluster_movement_bulanan.py
 ```
 Setelah proses selesai, akan tampil ringkasan KPI dan ringkasan segment di terminal. Output dari proses ini dapat dilihat di Clickhouse pada tabel **`kba_silver.silver_slow_moving_bulanan`**
+
+### 5. Data Quality Test
+
+Meliputi pemeriksaan null value untuk kolom-kolom yang krusial untuk perhitungan KPI, seperti `id` dan `price`, serta pemeriksaan unique value untuk `id`. Jalankan kode berikut untuk melakukan pemeriksaan kualitas data:
+```
+dbt test --profiles-dir .
+```
+Jika hasil menunjukkan `Pass=62`, maka seluruh test berhasil terpenuhi dan data layak untuk diproses di tahap selanjutnya.
 
 ### 6. Pembuatan Data Marts (Gold Layer)
 
