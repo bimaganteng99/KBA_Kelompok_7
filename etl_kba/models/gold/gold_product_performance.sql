@@ -9,7 +9,6 @@ WITH sales AS (
     FROM {{ ref('silver_sales_move') }}
     GROUP BY 1,2
 ),
-
 inventory AS (
     SELECT
         id_produk,
@@ -45,7 +44,6 @@ SELECT
     COALESCE(b.total_qty, 0) AS total_qty,
     COALESCE(b.nilai_stok, 0) AS nilai_stok,
     COALESCE(b.is_slow_moving, 0) AS is_slow_moving_flag
-
 FROM base b
 LEFT JOIN {{ ref('silver_products') }} p
     ON b.id_produk = p.id_produk

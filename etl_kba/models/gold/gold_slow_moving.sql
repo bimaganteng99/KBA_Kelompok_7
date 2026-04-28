@@ -4,10 +4,13 @@ SELECT
     sv.periode_bulan as periode_bulanan,
     sv.id_produk as id_produk,
     sv.nilai_stok,
-    -- Labeling: Jika ada di hasil Python gunakan statusnya, jika tidak ada (null) tapi ada stok, maka pasti Slow/Dead
-    COALESCE(sm.is_slow_moving_kpi, 1) AS is_slow_moving,
-    COALESCE(sm.demand_segment, 'dead_stock') AS demand_segment,
-    COALESCE(sm.kpi_reason, 'no_movement_recorded') AS slow_moving_reason,
+    CASE 
+        WHEN sm.id_produk = 0 THEN 1 -- Dead Stock = Pasti Slow Moving
+        WHEN sm.is_slow_moving_kpi = 1 THEN 1 
+        ELSE 0 
+    END AS is_slow_moving,
+    multiIf(empty(sm.demand_segment), 'dead_stock', sm.demand_segment) AS demand_segment,
+    multiIf(empty(sm.kpi_reason), 'no_movement_recorded', sm.kpi_reason) AS slow_moving_reason,
     extract(p.nama_produk, '\'en_US\': \'([^/]+)\'') AS nama_produk
 FROM {{ ref('silver_stock_value') }} sv
 LEFT JOIN {{ source('external_python', 'silver_slow_moving_bulanan') }} sm 

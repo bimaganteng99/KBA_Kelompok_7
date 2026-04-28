@@ -1,29 +1,38 @@
 {{ config(materialized='table') }}
 
-WITH sales_data AS (
+WITH actual_sales AS (
+    SELECT 
+        periode_bulan,
+        sum(nilai_penjualan_proxy) AS total_aktual_sales
+    FROM {{ ref('silver_sales_move') }}
+    GROUP BY 1
+),
+
+quotation_data AS (
     SELECT 
         toStartOfMonth(tanggal_transaksi) AS periode_bulan,
-        status_transaksi,
-        sum(total_belanja) AS total_nilai
+        sum(total_belanja) AS total_quotation_value
     FROM {{ ref('silver_sales') }}
-    GROUP BY 1, 2
+    WHERE status_transaksi != 'cancel'
+    GROUP BY 1
 ),
 
 achievement AS (
     SELECT 
-        s.periode_bulan,
-        sum(CASE WHEN s.status_transaksi IN ('sale', 'done') THEN s.total_nilai ELSE 0 END) AS aktual_penjualan,
-        sum(CASE WHEN s.status_transaksi != 'cancel' THEN s.total_nilai ELSE 0 END) AS total_quotation,
+        -- Gunakan COALESCE agar periode_bulan tidak NULL jika salah satu sisi kosong
+        COALESCE(s.periode_bulan, q.periode_bulan) as periode_bulan,
+        COALESCE(s.total_aktual_sales, 0) AS aktual_penjualan,
+        COALESCE(q.total_quotation_value, 0) AS total_quotation,
         t.target_penjualan
-    FROM sales_data s
-    LEFT JOIN {{ ref('silver_target_penjualan') }} t ON s.periode_bulan = t.periode_bulan
-    GROUP BY 1, t.target_penjualan
+    FROM quotation_data q -- Mulai dari Quotation (karena biasanya lebih banyak dari sales)
+    FULL OUTER JOIN actual_sales s ON q.periode_bulan = s.periode_bulan
+    LEFT JOIN {{ ref('silver_target_penjualan') }} t ON COALESCE(s.periode_bulan, q.periode_bulan) = t.periode_bulan
 )
 
 SELECT 
     *,
-    -- Sales Achievement Rate
+    -- Sales Achievement Rate (Aktual vs Target)
     (aktual_penjualan / NULLIF(target_penjualan, 0)) * 100 AS achievement_rate,
-    -- Sales Conversion Rate
+    -- Sales Conversion Rate (Aktual vs Penawaran)
     (aktual_penjualan / NULLIF(total_quotation, 0)) * 100 AS conversion_rate
 FROM achievement

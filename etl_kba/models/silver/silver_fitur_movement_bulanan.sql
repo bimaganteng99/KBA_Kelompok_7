@@ -3,9 +3,9 @@
 WITH base AS (
     SELECT
         toInt32OrNull(trim(BOTH ' ' FROM sml.product_id)) AS id_produk,
-        toDate(toStartOfMonth(toDateTimeOrNull(sml.date))) AS periode_bulan,
+        toDate(toStartOfMonth(toDateTime64OrNull(sml.date))) AS periode_bulan,
         toFloat64OrNull(sml.quantity) AS qty,
-        toDateTimeOrNull(sml.date) AS tanggal_pergerakan,
+        toDateTime64OrNull(sml.date) AS tanggal_pergerakan,
 
         lowerUTF8(trim(BOTH ' ' FROM sml.state)) AS status_move_line,
         lowerUTF8(trim(BOTH ' ' FROM sp.state))  AS status_picking,
@@ -35,7 +35,7 @@ SELECT
     dateDiff(
         'day',
         max(tanggal_pergerakan),
-        toDateTime(addMonths(periode_bulan, 1))
+        now()
     ) AS jeda_hari_dari_transaksi_terakhir
 FROM base
 WHERE status_move_line = 'done'

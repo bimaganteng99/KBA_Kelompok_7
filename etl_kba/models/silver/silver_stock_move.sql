@@ -26,16 +26,16 @@ SELECT
     toFloat64OrNull(product_uom_qty) AS product_uom_qty,
     toFloat64OrNull(quantity)        AS quantity,
 
-    toDateTimeOrNull(date)          AS move_date,
-    toDateTimeOrNull(date_deadline) AS deadline_at,
+    toDateTime64OrNull(date)          AS move_date,
+    toDateTime64OrNull(date_deadline) AS deadline_at,
 
     toFloat64OrNull(price_unit) AS price_unit,
 
     toInt32OrNull(sale_line_id)     AS id_sale_line,
     toInt32OrNull(purchase_line_id) AS id_purchase_line,
 
-    toDateTimeOrNull(create_date) AS created_at,
-    toDateTimeOrNull(write_date)  AS updated_at
+    toDateTime64OrNull(create_date) AS created_at,
+    toDateTime64OrNull(write_date)  AS updated_at
 
 FROM raw
 WHERE id IS NOT NULL AND id != ''

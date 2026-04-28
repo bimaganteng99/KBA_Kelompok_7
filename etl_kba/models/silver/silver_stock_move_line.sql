@@ -23,10 +23,10 @@ SELECT
     toFloat64OrNull(quantity)             AS quantity,
     toFloat64OrNull(quantity_product_uom) AS quantity_product_uom,
 
-    toDateTimeOrNull(date) AS move_line_date,
+    toDateTime64OrNull(date) AS move_line_date,
 
-    toDateTimeOrNull(create_date) AS created_at,
-    toDateTimeOrNull(write_date)  AS updated_at
+    toDateTime64OrNull(create_date) AS created_at,
+    toDateTime64OrNull(write_date)  AS updated_at
 
 FROM raw
 WHERE id IS NOT NULL AND id != ''

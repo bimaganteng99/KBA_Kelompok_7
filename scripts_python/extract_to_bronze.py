@@ -30,7 +30,7 @@ def sedot_ke_clickhouse(df, nama_tabel):
 # ODOO POSTGRES
 print("Menyedot data dari Odoo Postgres...")
 # tambah tabel
-tabel_odoo = ['sale_order', 'purchase_order', 'stock_quant', 'stock_picking', 'stock_move', 'stock_move_line', 'product_product', 'product_template', 'stock_valuation_layer', 'stock_picking_type', 'res_partner'] 
+tabel_odoo = ['sale_order', 'sale_order_line', 'purchase_order', 'purchase_order_line', 'stock_quant', 'stock_picking', 'stock_move', 'stock_move_line', 'product_product', 'product_template', 'stock_valuation_layer', 'stock_picking_type', 'res_partner'] 
 for tabel in tabel_odoo:
     try:
         df_odoo = pd.read_sql(f"SELECT * FROM {tabel}", pg_conn)

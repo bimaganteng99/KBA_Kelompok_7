@@ -27,10 +27,10 @@ SELECT
     t.purchase_ok AS boleh_dibeli_raw,
     t.active      AS aktif_raw,
 
-    toDateTimeOrNull(p.create_date) AS dibuat_pada_produk,
-    toDateTimeOrNull(p.write_date)  AS diubah_pada_produk,
-    toDateTimeOrNull(t.create_date) AS dibuat_pada_template,
-    toDateTimeOrNull(t.write_date)  AS diubah_pada_template
+    toDateTime64OrNull(p.create_date) AS dibuat_pada_produk,
+    toDateTime64OrNull(p.write_date)  AS diubah_pada_produk,
+    toDateTime64OrNull(t.create_date) AS dibuat_pada_template,
+    toDateTime64OrNull(t.write_date)  AS diubah_pada_template
 
 FROM raw_product p
 LEFT JOIN raw_template t
