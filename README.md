@@ -74,7 +74,7 @@ Jalankan skrip ekstraksi:
 ```bash
 python scripts_python/extract_to_bronze.py
 ```
-*Tanda sukses: Muncul indikator "Data ... berhasil masuk!" untuk 12 tabel.*
+*Tanda sukses: Muncul indikator "Data ... berhasil masuk!" untuk 15 tabel.*
 
 ---
 
@@ -88,9 +88,11 @@ Selain itu, untuk analisis pergerakan barang berdasarkan transaksi **outgoing** 
 Tabel yang dihasilkan pada Layer Silver:
 - `silver_sales` (dari Odoo)
 - `silver_purchase` (dari Odoo)
+- `silver_purchase_detail` (dari Odoo)
 - `silver_inventory` (dari Odoo)
 - `silver_products` (dari Odoo)
 - `silver_purchase_on_time` (dari Odoo)
+- `silver_sale_order_line` (dari Odoo)
 - `silver_sales_move` (dari Odoo)
 - `silver_stock_move_line` (dari Odoo)
 - `silver_stock_picking` (dari Odoo)
@@ -110,7 +112,7 @@ cd etl_kba
 # Jalankan model dbt (menggunakan dbt_project.yml dan profiles.yml di folder saat ini)
 dbt run --profiles-dir .
 ```
-*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=15` di terminal.*
+*Tanda sukses: Muncul keterangan `Completed successfully` dan `PASS=17` di terminal.*
 
 ---
 
@@ -159,7 +161,7 @@ Data dari Silver Layer diagregasi untuk membentuk Data Marts, yaitu tabel-tabel 
 ```
 dbt run --select gold 
 ```
-Jika hasil menunjukkan `Pass=5`, maka proses telah selesai dan tabel hasil pemrosesan dapat dilihat pada `kba_gold` di Clickhouse.
+Jika hasil menunjukkan `Pass=7`, maka proses telah selesai dan tabel hasil pemrosesan dapat dilihat pada `kba_gold` di Clickhouse.
 
 ### 9. Membuat Dashboard (Metabase)
 
