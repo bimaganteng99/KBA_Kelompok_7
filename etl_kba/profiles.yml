@@ -8,4 +8,4 @@ kba_clickhouse:
       user: default
       password: ""
       # dbt akan membuat hasil cuciannya di database baru bernama kba_silver
-      schema: kba_silver
+      schema: silver

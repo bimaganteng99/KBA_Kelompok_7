@@ -1,4 +1,3 @@
--- Gagal jika ada duplikasi (id_produk, periode_bulan) di output Python
 SELECT
   id_produk,
   periode_bulan,

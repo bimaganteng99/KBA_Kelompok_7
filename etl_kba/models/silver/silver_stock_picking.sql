@@ -19,10 +19,10 @@ SELECT
     NULLIF(state, '')  AS status_picking,
     NULLIF(move_type, '') AS move_type,
 
-    toDateTimeOrNull(scheduled_date) AS scheduled_at,
-    toDateTimeOrNull(date_deadline)  AS deadline_at,
-    toDateTimeOrNull(date_done)      AS done_at,
-    toDateTimeOrNull(date)           AS picking_date,
+    toDateTime64OrNull(scheduled_date) AS scheduled_at,
+    toDateTime64OrNull(date_deadline)  AS deadline_at,
+    toDateTime64OrNull(date_done)      AS done_at,
+    toDateTime64OrNull(date)           AS picking_date,
 
     has_deadline_issue AS has_deadline_issue_raw,
     is_locked          AS is_locked_raw,
@@ -31,8 +31,8 @@ SELECT
 
     toInt32OrNull(sale_id) AS id_sale,
 
-    toDateTimeOrNull(create_date) AS created_at,
-    toDateTimeOrNull(write_date)  AS updated_at
+    toDateTime64OrNull(create_date) AS created_at,
+    toDateTime64OrNull(write_date)  AS updated_at
 
 FROM raw
 WHERE id IS NOT NULL AND id != ''

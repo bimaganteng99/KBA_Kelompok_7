@@ -13,7 +13,7 @@ SELECT
     name AS nomor_nota,
     
     -- 3. Mengubah string menjadi format waktu (DateTime)
-    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    toDateTime64OrNull(date_order) AS tanggal_transaksi,
     
     -- 4. Mengubah string menjadi angka desimal (Uang)
     toFloat64OrNull(amount_total) AS total_belanja,
@@ -23,4 +23,4 @@ SELECT
 FROM raw_sales
 -- 5. Membuang baris yang ID-nya kosong/cacat dan tanggalnya null
 WHERE id IS NOT NULL AND id != ''
-  AND toDateTimeOrNull(date_order) IS NOT NULL
+  AND toDateTime64OrNull(date_order) IS NOT NULL

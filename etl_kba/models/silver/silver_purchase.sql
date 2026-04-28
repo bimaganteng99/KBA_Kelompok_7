@@ -7,10 +7,10 @@ WITH raw_purchase AS (
 SELECT
     toInt32OrNull(id) AS id_pembelian,
     name AS nomor_nota_beli,
-    toDateTimeOrNull(date_order) AS tanggal_transaksi,
+    toDateTime64OrNull(date_order) AS tanggal_transaksi,
     toFloat64OrNull(amount_total) AS total_belanja,
     state AS status_transaksi
 
 FROM raw_purchase
 WHERE id IS NOT NULL AND id != ''
-  AND toDateTimeOrNull(date_order) IS NOT NULL
+  AND toDateTime64OrNull(date_order) IS NOT NULL

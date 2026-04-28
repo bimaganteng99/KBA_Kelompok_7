@@ -15,8 +15,8 @@ SELECT
 
     NULLIF(active, '') AS aktif_raw,
 
-    toDateTimeOrNull(create_date) AS dibuat_pada,
-    toDateTimeOrNull(write_date)  AS diubah_pada
+    toDateTime64OrNull(create_date) AS dibuat_pada,
+    toDateTime64OrNull(write_date)  AS diubah_pada
 
 FROM raw
 WHERE id IS NOT NULL AND id != ''

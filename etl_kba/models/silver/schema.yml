@@ -1,5 +1,19 @@
 version: 2
 
+sources:
+  - name: external_python
+    schema: kba_silver
+    tables:
+      - name: silver_slow_moving_bulanan
+        columns:
+          - name: demand_segment
+            tests:
+              - accepted_values:
+                  values: ['frequent_small', 'rare_bulk', 'balanced_regular', 'dead_stock', 'unknown']
+          - name: is_slow_moving_kpi
+            tests:
+              - accepted_values:
+                  values: [0, 1]
 models:
   - name: silver_products
     columns:
