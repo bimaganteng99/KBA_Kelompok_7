@@ -124,6 +124,28 @@ services:
       MB_DB_HOST:   postgres
     volumes:
       - metabase_data:/metabase-data
+      - ./data/init/init_metabase.sql:/docker-entrypoint-initdb.d/init_metabase.sql
+  
+  python_etl:
+    build: .
+    container_name: kba7_etl_runner
+    restart: always
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PG_HOST=kba7_postgres
+      - PG_PORT=5432
+      - PG_DB=odoo
+      - PG_USER=${PG_USER:-odoo}
+      - PG_PASSWORD=${PG_PASSWORD:-odoo}
+      - DBT_PROFILES_DIR=/app
+      - CH_HOST=kba7_clickhouse
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
 
 volumes:
   postgres_data:

@@ -1,0 +1,102 @@
+import time
+import subprocess
+import psycopg2
+import os
+from clickhouse_driver import Client
+
+# Konfigurasi dari Environment Variables (sesuai file .env Anda)
+PG_HOST = os.getenv('PG_HOST', 'kba7_postgres')  # Gunakan 'kba7_postgres' jika di dalam docker
+PG_PORT = os.getenv('PG_PORT', '5432')       # Port luar 5433, port dalam 5432
+PG_DB = os.getenv('PG_DB', 'odoo')
+PG_USER = os.getenv('PG_USER', 'odoo')
+PG_PASS = os.getenv('PG_PASSWORD', 'odoo')
+
+CH_HOST = os.getenv('CH_HOST', 'kba7_clickhouse')  # Gunakan 'kba7_clickhouse' jika di dalam docker
+CH_USER = os.getenv('CH_USER', 'default')
+CH_PASS = os.getenv('CH_PASSWORD', '')
+
+def ada_data_baru():
+    # Daftar 12 tabel Odoo Anda
+    daftar_tabel = ['sale_order', 'sale_order_line', 'purchase_order', 'purchase_order_line', 'stock_quant', 'stock_picking', 'stock_move', 'stock_move_line', 'product_product', 'product_template', 'stock_valuation_layer', 'stock_picking_type', 'res_partner'] 
+    
+    pg_conn = None
+    try:
+        pg_conn = psycopg2.connect(host=PG_HOST, port=PG_PORT, database=PG_DB, user=PG_USER, password=PG_PASS)
+        pg_cur = pg_conn.cursor()
+        
+        ch_client = Client(host=CH_HOST, user=CH_USER, password=CH_PASS)
+
+        for tabel in daftar_tabel:
+            # Cek Max ID di Postgres
+            pg_cur.execute(f'SELECT MAX(id) FROM public."{tabel}"')
+            res_pg = pg_cur.fetchone()[0]
+            # Paksa ke int, jika None (tabel kosong) maka 0
+            max_pg = int(res_pg) if res_pg is not None else 0
+
+            # Cek Max ID di Clickhouse
+            try:
+                tabel_ch = f"{tabel}" 
+                ch_res = ch_client.execute(f"SELECT MAX(toUInt64(id)) FROM kba_bronze.{tabel_ch}")
+                # Paksa ke int, jika None atau error maka 0
+                max_ch = int(ch_res[0][0]) if ch_res and ch_res[0][0] is not None else 0
+            except Exception:
+                max_ch = 0
+
+            if max_pg > max_ch:
+                print(f"Data baru ditemukan pada tabel: {tabel} (PG: {max_pg}, CH: {max_ch})")
+                return True # Langsung return True jika ada satu saja yang beda
+        
+        return False # Jika semua tabel sudah diperiksa dan tidak ada yang baru
+
+    except Exception as e:
+        print(f"Error pengecekan tabel: {e}")
+        return False
+    finally:
+        if pg_conn: pg_conn.close()
+
+def run_pipeline():
+    print("\n" + "="*30)
+    print("--- Memulai Pipeline ---")
+    try:
+        # Jalankan script Ingestion
+        print("Menjalankan Ingestion...")
+        subprocess.run(["python", "scripts_python/extract_to_bronze.py"], check=True)
+        
+        # Jalankan DBT Silver
+        print("Menjalankan DBT Silver...")
+        subprocess.run(["dbt", "run", "--profiles-dir", ".", "--select", "tag:silver"], cwd="etl_kba", check=True)
+
+        # Quality test 1/2
+        print("Menjalankan DBT Test 1/2...")
+        subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "silver"], cwd="etl_kba", check=True)
+
+        # Jalankan script K-Means
+        print("Menjalankan Script KMeans Clustering...")
+        subprocess.run(["python", "scripts_python/kmeans_cluster_movement_bulanan.py"], check=True)
+
+        # Quality test 2/2
+        print("Menjalankan DBT Test 2/2...")
+        subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "source:external_python.silver_slow_moving_bulanan"], cwd="etl_kba", check=True)
+
+        # Jalankan DBT Gold
+        print("Menjalankan DBT Gold...")
+        subprocess.run(["dbt", "run", "--profiles-dir", ".", "--select", "tag:gold"], cwd="etl_kba", check=True)
+        
+        print("--- Pipeline Berhasil Diselesaikan ---")
+    except subprocess.CalledProcessError as e:
+        print(f"Pipeline gagal pada tahap tertentu: {e}")
+    print("="*30 + "\n")
+
+if __name__ == "__main__":
+    print("Scheduler aktif")
+    while True:
+        print("Menunggu perubahan data...")
+        try:
+            if ada_data_baru():
+                run_pipeline()
+            else:
+                print(f"[{time.strftime('%H:%M:%S')}] Data masih sama. Menunggu...")
+        except Exception as e:
+            print(f"Error Utama: {e}")
+        
+        time.sleep(20) # Cek setiap 5 menit

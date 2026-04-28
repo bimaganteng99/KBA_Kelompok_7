@@ -2,13 +2,17 @@ import pandas as pd
 from clickhouse_driver import Client
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
+import os
+
+CH_HOST = os.getenv('CH_HOST', 'localhost')
+CH_PORT = os.getenv('CH_PORT', '9000')
 
 # definisi KPI
 RECENCY_DAYS = 30
 QTY_MIN = 10
 
 # koneksi ClickHouse
-ch = Client(host="localhost", port=9000, user="default", password="")
+ch = Client(host=CH_HOST, port=CH_PORT, user="default", password="")
 
 FEATURE_TABLE = "kba_silver.silver_fitur_movement_bulanan"
 OUT_TABLE = "kba_silver.silver_slow_moving_bulanan"

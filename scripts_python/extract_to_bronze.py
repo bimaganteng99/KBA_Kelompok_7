@@ -2,15 +2,28 @@ import pandas as pd
 import psycopg2
 from clickhouse_driver import Client
 import warnings
+import os
+
+# Jika dijalankan di Windows manual, dia akan pakai localhost:5433
+# Jika dijalankan di Docker, Docker akan 'menyuntikkan' kba7_postgres:5432
+PG_HOST = os.getenv('PG_HOST', 'localhost')
+PG_PORT = os.getenv('PG_PORT', '5433') 
+PG_DB   = os.getenv('PG_DB', 'odoo')
+PG_USER = os.getenv('PG_USER', 'odoo')
+PG_PASS = os.getenv('PG_PASSWORD', 'odoo')
+
+# Begitu juga untuk Clickhouse
+CH_HOST = os.getenv('CH_HOST', 'localhost')
+CH_PORT = os.getenv('CH_PORT', '9000')
 
 # Matikan warning Pandas agar terminal tetap bersih
 warnings.filterwarnings('ignore')
 
 # Koneksi
 pg_conn = psycopg2.connect(
-    host="127.0.0.1", port=5433, database="odoo", user="odoo", password="odoo"
+    host=PG_HOST, port=PG_PORT, database=PG_DB, user=PG_USER, password=PG_PASS
 )
-ch_client = Client(host='localhost', port=9000, user='default', password='')
+ch_client = Client(host=CH_HOST, port=CH_PORT, user='default', password='')
 ch_client.execute('CREATE DATABASE IF NOT EXISTS kba_bronze')
 
 # Ingestion
