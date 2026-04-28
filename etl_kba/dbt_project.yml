@@ -17,6 +17,7 @@ models:
     # Semua hasil dari folder silver akan otomatis dibikin jadi tabel
     silver:
       +materialized: table
+      tags: ["silver"]
     gold:
       +materialized: table
       +schema: gold

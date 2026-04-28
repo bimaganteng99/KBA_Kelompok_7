@@ -170,6 +170,34 @@ Jika hasil menunjukkan `Pass=7`, maka proses telah selesai dan tabel hasil pemro
 - Masukkan data yang diperlukan sesuai dengan konfigurasi proyek
 - Buat grafik dan Dashboard sesuai KPI yang telah didefinisikan
 
+---
+
+Dashboard ini telah dikonfigurasi secara otomatis sehingga tidak perlu melakukan setup database secara manual. Buka (localhost:3000)[localhost:3000] setelah semua container dipastikan berjalan. Gunakan kredensial berikut (karena database sudah diinisialisasi via `init_metabase.sql`):
+```
+Email: admin@kba7.com (Ganti dengan email yang Anda pakai saat buat dashboard)
+Password: adminkba7 (Ganti dengan password yang Anda buat)
+```
+Pilih menu "Our analytics", `KBA7byMZ` pada sidebar sebelah kiri untuk melihat dashboard dan grafik yang telah tersedia.
+
+## Automasi Pipeline
+Sistem ini menggunakan Python Scheduler (main.py) untuk mengotomatisasi seluruh alur data dari Odoo hingga menjadi dashboard di Metabase.
+
+### Mekanisme Kerja Scheduler
+Scheduler bekerja dengan metode CDC (Change Data Capture) sederhana berbasis MAX(id). Setiap 20 detik, script akan melakukan pengecekan silang antara database sumber dan warehouse:
+- Pengecekan Postgres: Mengambil MAX(id) terbaru dari tabel-tabel utama Odoo (seperti sale_order).
+- Pengecekan ClickHouse: Mengambil MAX(id) yang sudah tersimpan di layer Bronze.
+- Trigger Pipeline: Jika MAX(id) Postgres > MAX(id) ClickHouse, maka seluruh pipeline (Ingestion -> dbt Silver -> K-Means -> dbt Gold) akan dijalankan secara berurutan.
+
+### Spesifikasi Environment
+Pipeline ini berjalan di dalam container Docker (`kba7_etl_runner`) dengan dependensi berikut:
+
+| Komponen | Spesifikasi |
+| :--- | :--- |
+| **Runtime** | Python 3.10-slim |
+| **Driver DB** | `psycopg2-binary` (Postgres), `clickhouse-driver` |
+| **Orkestrasi Data** | `dbt-core` 1.11.8 & `dbt-clickhouse` |
+| **Analitik** | `scikit-learn` (K-Means Clustering) |
+
 ## Catatan Troubleshooting
 - **Conflict Port 5432:** Jika ada PostgreSQL bawaan yang berjalan di laptop, koneksi ke Odoo dari luar Docker diubah menggunakan port `5433` (seperti yang terkonfigurasi di `docker-compose.yml` dan `extract_to_bronze.py`).
 - **Akses DBeaver/Terminal ClickHouse:** Gunakan port `8123` untuk DBeaver atau jalankan `docker exec -it trialproyek_clickhouse clickhouse-client` untuk masuk langsung via terminal.

@@ -1,5 +1,5 @@
 pandas 
-psycopg2 
+psycopg2-binary
 clickhouse-driver 
 dbt-core==1.11.8
 dbt-clickhouse==1.10.0
