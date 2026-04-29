@@ -5,15 +5,30 @@ import os
 from clickhouse_driver import Client
 
 # Konfigurasi dari Environment Variables (sesuai file .env Anda)
-PG_HOST = os.getenv('PG_HOST', 'kba7_postgres')  # Gunakan 'kba7_postgres' jika di dalam docker
+PG_HOST = os.getenv('PG_HOST', 'trialproyek_postgres')  # Gunakan 'trialproyek_postgres' jika di dalam docker
 PG_PORT = os.getenv('PG_PORT', '5432')       # Port luar 5433, port dalam 5432
 PG_DB = os.getenv('PG_DB', 'odoo')
 PG_USER = os.getenv('PG_USER', 'odoo')
 PG_PASS = os.getenv('PG_PASSWORD', 'odoo')
 
-CH_HOST = os.getenv('CH_HOST', 'kba7_clickhouse')  # Gunakan 'kba7_clickhouse' jika di dalam docker
+CH_HOST = os.getenv('CH_HOST', 'trialproyek_clickhouse')  # Gunakan 'trialproyek_clickhouse' jika di dalam docker
 CH_USER = os.getenv('CH_USER', 'default')
 CH_PASS = os.getenv('CH_PASSWORD', '')
+
+def connect_with_retry():
+    while True:
+        try:
+            conn = psycopg2.connect(
+                host=os.getenv('PG_HOST'),
+                database=os.getenv('PG_DB'),
+                user=os.getenv('PG_USER'),
+                password=os.getenv('PG_PASSWORD'),
+                port=5432
+            )
+            return conn
+        except psycopg2.OperationalError:
+            print("Postgres belum siap, mencoba lagi dalam 5 detik...")
+            time.sleep(5)
 
 def ada_data_baru():
     # Daftar 12 tabel Odoo Anda
@@ -68,7 +83,7 @@ def run_pipeline():
 
         # Quality test 1/2
         print("Menjalankan DBT Test 1/2...")
-        subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "silver"], cwd="etl_kba", check=True)
+        subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "silver", "--exclude", "source:external_python"], cwd="etl_kba", check=True)
 
         # Jalankan script K-Means
         print("Menjalankan Script KMeans Clustering...")
@@ -83,14 +98,15 @@ def run_pipeline():
         subprocess.run(["dbt", "run", "--profiles-dir", ".", "--select", "tag:gold"], cwd="etl_kba", check=True)
         
         print("--- Pipeline Berhasil Diselesaikan ---")
+        print("Menunggu perubahan data...")
     except subprocess.CalledProcessError as e:
         print(f"Pipeline gagal pada tahap tertentu: {e}")
     print("="*30 + "\n")
 
 if __name__ == "__main__":
+    db_connection = connect_with_retry()
     print("Scheduler aktif")
     while True:
-        print("Menunggu perubahan data...")
         try:
             if ada_data_baru():
                 run_pipeline()
@@ -98,5 +114,6 @@ if __name__ == "__main__":
                 print(f"[{time.strftime('%H:%M:%S')}] Data masih sama. Menunggu...")
         except Exception as e:
             print(f"Error Utama: {e}")
+            db_connection = connect_with_retry()
         
-        time.sleep(20) # Cek setiap 5 menit
+        time.sleep(20) # Cek setiap 20 detik

@@ -124,7 +124,7 @@ services:
       MB_DB_HOST:   postgres
     volumes:
       - metabase_data:/metabase-data
-      - ./data/init/init_metabase.sql:/docker-entrypoint-initdb.d/init_metabase.sql
+      - ./data/init:/docker-entrypoint-initdb.d:ro
   
   python_etl:
     build: .

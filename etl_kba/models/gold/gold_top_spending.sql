@@ -5,10 +5,12 @@ WITH product_spending AS (
         toStartOfMonth(tanggal_transaksi) AS periode_bulan,
         id_produk,
         nama_produk,
-        SUM(total_belanja) AS total_pengeluaran_produk
+        SUM(total_belanja) AS total_pengeluaran_produk,
+        SUM(qty_beli) AS total_qty_produk,
+        harga_satuan
     FROM {{ ref('silver_purchase_detail') }} -- Pastikan ada layer silver untuk detail PO
     WHERE status_transaksi IN ('purchase', 'done')
-    GROUP BY 1, 2, 3
+    GROUP BY 1, 2, 3, 6
 )
 
 SELECT 
