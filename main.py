@@ -58,6 +58,7 @@ def ada_data_baru():
                 max_ch = 0
 
             if max_pg > max_ch:
+                print("\n" + "="*40 + "\n")
                 print(f"Data baru ditemukan pada tabel: {tabel} (PG: {max_pg}, CH: {max_ch})")
                 return True # Langsung return True jika ada satu saja yang beda
         
@@ -70,38 +71,98 @@ def ada_data_baru():
         if pg_conn: pg_conn.close()
 
 def run_pipeline():
-    print("\n" + "="*30)
+    print("\n" + "="*40 + "\n")
     print("--- Memulai Pipeline ---")
     try:
         # Jalankan script Ingestion
-        print("Menjalankan Ingestion...")
+        text = "Menjalankan Ingestion..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["python", "scripts_python/extract_to_bronze.py"], check=True)
         
         # Jalankan DBT Silver
-        print("Menjalankan DBT Silver...")
+        text = "Menjalankan DBT Silver..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+        
         subprocess.run(["dbt", "run", "--profiles-dir", ".", "--select", "tag:silver"], cwd="etl_kba", check=True)
 
         # Quality test 1/2
-        print("Menjalankan DBT Test 1/2...")
+        text = "Menjalankan DBT Test 1/2..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "silver", "--exclude", "source:external_python"], cwd="etl_kba", check=True)
 
         # Jalankan script K-Means
-        print("Menjalankan Script KMeans Clustering...")
+        text = "Menjalankan Script KMeans Clustering..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["python", "scripts_python/kmeans_cluster_movement_bulanan.py"], check=True)
 
         # Quality test 2/2
-        print("Menjalankan DBT Test 2/2...")
+        text = "Menjalankan DBT Test 2/2..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "source:external_python.silver_slow_moving_bulanan"], cwd="etl_kba", check=True)
 
         # Jalankan DBT Gold
-        print("Menjalankan DBT Gold...")
+        text = "Menjalankan DBT Gold..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["dbt", "run", "--profiles-dir", ".", "--select", "tag:gold"], cwd="etl_kba", check=True)
         
-        print("--- Pipeline Berhasil Diselesaikan ---")
-        print("Menunggu perubahan data...")
+        print("\n--- Pipeline Berhasil Diselesaikan ---")
     except subprocess.CalledProcessError as e:
         print(f"Pipeline gagal pada tahap tertentu: {e}")
-    print("="*30 + "\n")
+    print("="*40 + "\n")
+    print("Menunggu perubahan data...\n")
 
 if __name__ == "__main__":
     db_connection = connect_with_retry()

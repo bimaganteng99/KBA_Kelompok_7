@@ -117,7 +117,7 @@ services:
         condition: service_healthy
     environment:
       MB_DB_TYPE:   postgres
-      MB_DB_DBNAME: ${PG_DB:-postgres}
+      MB_DB_DBNAME: metabase_db
       MB_DB_PORT:   "5432"
       MB_DB_USER:   ${PG_USER:-odoo}
       MB_DB_PASS:   ${PG_PASSWORD:-odoo}

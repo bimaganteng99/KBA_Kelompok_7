@@ -8,7 +8,7 @@ WITH product_spending AS (
         SUM(total_belanja) AS total_pengeluaran_produk,
         SUM(qty_beli) AS total_qty_produk,
         harga_satuan
-    FROM {{ ref('silver_purchase_detail') }} -- Pastikan ada layer silver untuk detail PO
+    FROM {{ ref('silver_purchase_detail') }}
     WHERE status_transaksi IN ('purchase', 'done')
     GROUP BY 1, 2, 3, 6
 )

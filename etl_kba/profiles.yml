@@ -3,7 +3,7 @@ kba_clickhouse:
   outputs:
     dev:
       type: clickhouse
-      host: "{{ env_var('CH_HOST') }}"
+      host: "{{ env_var('CH_HOST', 'localhost') }}"
       port: 9000
       user: default
       password: ""

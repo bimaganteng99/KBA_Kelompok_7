@@ -9,7 +9,6 @@ SELECT
     toFloat64OrNull(toString(sol.product_uom_qty)) AS qty, 
     toFloat64OrNull(toString(sol.price_unit)) AS price_unit,
     
-    -- Menghitung nilai penjualan asli dari dokumen Sales
     toFloat64OrNull(toString(sol.product_uom_qty)) * toFloat64OrNull(toString(sol.price_unit)) AS nilai_penjualan_proxy,
     
     sol.id AS sale_line_id,

@@ -1,4 +1,4 @@
--- Gagal jika ada duplikasi (id_produk, periode_bulan)
+-- gagal jika ada duplikasi (id_produk, periode_bulan)
 SELECT
   id_produk,
   periode_bulan,

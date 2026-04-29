@@ -21,7 +21,6 @@ inventory AS (
 base AS (
     SELECT 
         COALESCE(s.id_produk, i.id_produk) AS id_produk,
-        -- Changed i.periode_bulanan to i.periode_bulan
         COALESCE(s.periode_bulan, i.periode_bulan) AS periode_bulan, 
         s.total_sales,
         s.total_qty,
@@ -30,14 +29,13 @@ base AS (
     FROM sales s
     FULL OUTER JOIN inventory i
         ON s.id_produk = i.id_produk
-        -- Changed i.periode_bulanan to i.periode_bulan
         AND s.periode_bulan = i.periode_bulan 
 )
 
 SELECT 
     b.periode_bulan,
     b.id_produk,
-    -- Menggunakan RegEx untuk mengambil teks di antara 'en_US': ' dan '
+    -- menggunakan RegEx untuk mengambil teks di antara 'en_US': ' dan '
     extract(p.nama_produk, '\'en_US\': \'([^/]+)\'') AS nama_produk,
 
     COALESCE(b.total_sales, 0) AS total_sales,

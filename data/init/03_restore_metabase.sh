@@ -5,7 +5,6 @@ psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "postgres" -c "CREATE DATABASE me
 
 echo "Memulai restore metadata Metabase..."
 if [ -f /dumps/metabase.sql ]; then
-    # Sesuaikan -d dengan nama database tempat Metabase menyimpan datanya
     psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "metabase_db" -f /dumps/metabase.sql
     echo "Restore Metabase selesai!"
 else
