@@ -4,6 +4,7 @@ SELECT
     sv.periode_bulan as periode_bulanan,
     sv.id_produk as id_produk,
     sv.nilai_stok,
+    si.jumlah_stok,
     CASE 
         WHEN sm.id_produk = 0 THEN 1 -- Dead Stock = Pasti Slow Moving
         WHEN sm.is_slow_moving_kpi = 1 THEN 1 
@@ -17,4 +18,9 @@ LEFT JOIN {{ source('external_python', 'silver_slow_moving_bulanan') }} sm
     ON sv.id_produk = sm.id_produk 
     AND sv.periode_bulan = sm.periode_bulan
 LEFT JOIN {{ ref('silver_products') }} p ON sv.id_produk = p.id_produk
+LEFT JOIN (
+    SELECT id_produk, SUM(jumlah_stok) as jumlah_stok
+    FROM {{ ref('silver_inventory') }}
+    GROUP BY id_produk
+) si ON sv.id_produk = si.id_produk
 WHERE sv.nilai_stok > 0

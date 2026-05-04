@@ -20,19 +20,30 @@ models:
       - name: id_produk
         tests: [not_null, unique]
 
-  - name: silver_inventory
+  - name: silver_inventory_monthly_clean
+    description: "Laporan saldo stok bulanan per produk hasil rekonstruksi dari mutasi (stock_move)."
     columns:
-      - name: id_stok
-        tests: [not_null, unique]
-      - name: id_produk
+      - name: periode_bulan
+        description: "Periode pencatatan dalam format YYYY-MM"
         tests:
           - not_null
-          - relationships:
-              arguments:
-                to: ref('silver_products')
-                field: id_produk
-      - name: jumlah_stok
-        tests: [not_null]
+          - dbt_utils.expression_is_true:
+              expression: "length(periode_bulan) = 7"
+
+      - name: internal_reference
+        description: "SKU atau referensi internal produk"
+        tests:
+          - not_null
+
+      - name: total_qty_on_hand
+        description: "Total saldo fisik di gudang internal"
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - periode_bulan
+            - internal_reference
 
   - name: silver_sales
     columns:
