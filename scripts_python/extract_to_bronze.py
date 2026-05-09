@@ -5,7 +5,7 @@ import warnings
 import os
 
 # Jika dijalankan di Windows manual, dia akan pakai localhost:5433
-# Jika dijalankan di Docker, Docker akan 'menyuntikkan' kba7_postgres:5432
+# Jika dijalankan di Docker, Docker akan 'menyuntikkan' trialproyek_postgres:5432
 PG_HOST = os.getenv('PG_HOST', 'localhost')
 PG_PORT = os.getenv('PG_PORT', '5433') 
 PG_DB   = os.getenv('PG_DB', 'odoo')

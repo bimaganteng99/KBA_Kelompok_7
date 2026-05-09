@@ -5,13 +5,13 @@ import os
 from clickhouse_driver import Client
 
 # Konfigurasi dari Environment Variables (sesuai file .env Anda)
-PG_HOST = os.getenv('PG_HOST', 'kba7_postgres')  # Gunakan 'trialproyek_postgres' jika di dalam docker
+PG_HOST = os.getenv('PG_HOST', 'trialproyek_postgres')  # Gunakan 'trialproyek_postgres' jika di dalam docker
 PG_PORT = os.getenv('PG_PORT', '5432')       # Port luar 5433, port dalam 5432
 PG_DB = os.getenv('PG_DB', 'odoo')
 PG_USER = os.getenv('PG_USER', 'odoo')
 PG_PASS = os.getenv('PG_PASSWORD', 'odoo')
 
-CH_HOST = os.getenv('CH_HOST', 'kba7_clickhouse')  # Gunakan 'trialproyek_clickhouse' jika di dalam docker
+CH_HOST = os.getenv('CH_HOST', 'trialproyek_clickhouse')  # Gunakan 'trialproyek_clickhouse' jika di dalam docker
 CH_USER = os.getenv('CH_USER', 'default')
 CH_PASS = os.getenv('CH_PASSWORD', '')
 

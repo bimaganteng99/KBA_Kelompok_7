@@ -3,6 +3,9 @@ from clickhouse_driver import Client
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 
 CH_HOST = os.getenv('CH_HOST', 'localhost')
 CH_PORT = os.getenv('CH_PORT', '9000')
@@ -17,7 +20,6 @@ ch = Client(host=CH_HOST, port=CH_PORT, user="default", password="")
 FEATURE_TABLE = "kba_silver.silver_fitur_movement_bulanan"
 OUT_TABLE = "kba_silver.silver_slow_moving_bulanan"
 
-# ambil feature data dari silver
 # Ambil feature data dari silver dengan kolom snapshot_type
 query = f"""
 SELECT
@@ -107,6 +109,89 @@ for bulan, group in df.groupby("snapshot_date"):
     final_df_list.append(pd.concat([df_active, df_dead]))
 
 df_final = pd.concat(final_df_list)
+
+def save_multi_period_plots(df_to_plot):
+    plot_data = df_to_plot.copy()
+    
+    if plot_data.empty:
+        print("Data tidak cukup untuk visualisasi.")
+        return
+    
+    output_dir = "grafik"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Pastikan tipe data string untuk penamaan file yang aman
+    plot_data['periode_str'] = plot_data['periode_bulan'].astype(str)
+
+    def add_jitter(series):
+        return series + np.random.normal(0, 0.05, size=len(series))
+    
+    plot_data['x_jittered'] = add_jitter(plot_data['frekuensi_transaksi'])
+    plot_data['y_jittered'] = add_jitter(plot_data['rata2_qty_per_transaksi'])
+    
+    # Set gaya visualisasi
+    sns.set_theme(style="whitegrid")
+
+    # Grouping berdasarkan Periode dan Snapshot
+    # Ini otomatis hanya mengambil kombinasi yang ADA datanya
+    grouped = plot_data.groupby(['periode_str', 'snapshot_type'])
+
+    for (periode, snapshot), group_df in grouped:
+        # 1. Inisialisasi figure per grafik
+        plt.figure(figsize=(10, 7))
+
+        palette_colors = {
+            "frequent_small": "green",
+            "rare_bulk": "orange",
+            "balanced_regular": "blue",
+            "dead_stock": "red", # Warna kontras untuk barang mati
+            "awaiting_more_sales": "grey"
+        }
+        
+        # 2. Gambar scatter plot
+        sns.scatterplot(
+            data=group_df,
+            x="x_jittered", 
+            y="y_jittered",
+            hue="demand_segment",
+            size="total_qty_terjual_keluar",  # Ukuran lingkaran berdasarkan total qty
+            sizes=(50, 500),           # Rentang ukuran lingkaran (min, max)
+            palette=palette_colors,
+            alpha=0.6,
+            edgecolor="w",
+            linewidth=0.5
+        )
+        
+        plt.margins(x=0.1, y=0.1)
+        
+        # --- Skala Logaritmik ---
+        plt.xscale('symlog', linthresh=1)
+        plt.yscale('symlog', linthresh=1)
+
+        plt.axvline(0, color='red', linestyle='--', alpha=0.3)
+        plt.axhline(0, color='red', linestyle='--', alpha=0.3)
+        
+        # 3. Kustomisasi Judul dan Label
+        plt.title(f"Clustering: {periode} ({snapshot})", fontsize=14)
+        plt.xlabel("Freq Transaksi")
+        plt.ylabel("Avg Qty per Transaksi")
+        plt.legend(title="Legend", bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.tight_layout()
+        
+        # 4. Buat nama file yang unik dan bersih
+        # Contoh: clustering_Maret_Historical.png
+        clean_filename = f"clustering_{periode}_{snapshot}.png".replace(" ", "_")
+        filepath = os.path.join(output_dir, clean_filename)
+        
+        # 5. Simpan dan Tutup (agar memori tidak penuh)
+        plt.savefig(filepath, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        print(f"Berhasil menyimpan: {filepath}")
+
+# Panggil fungsi
+save_multi_period_plots(df_final)
 
 # Tulis output ke ClickHouse
 # Tambahkan snapshot_type String ke skema tabel

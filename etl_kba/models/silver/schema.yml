@@ -114,20 +114,6 @@ models:
       - name: value
         tests: [not_null]
 
-  - name: silver_stock_value
-    columns:
-      - name: periode_bulan
-        tests: [not_null]
-      - name: id_produk
-        tests:
-          - not_null
-          - relationships:
-              arguments:
-                to: ref('silver_products')
-                field: id_produk
-      - name: nilai_stok
-        tests: [not_null]
-
   - name: silver_fitur_movement_bulanan
     columns:
       - name: id_produk

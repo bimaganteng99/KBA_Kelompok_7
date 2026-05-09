@@ -33,7 +33,7 @@ Proyek ini sudah memiliki **automasi** menggunakan Python Scheduler `main.py` un
 
 Anda cukup menjalankan satu baris kode berikut:
 ```bash
-docker compose up -d && docker compose logs -f python_etl
+docker compose up -d --build && docker compose logs -f python_etl
 ``` 
 Kode tersebut akan membangun seluruh arsitektur data dan menampilkan log dari Python Scheduler/Python ETL secara real-time.
 
