@@ -117,14 +117,14 @@ services:
         condition: service_healthy
     environment:
       MB_DB_TYPE:   postgres
-      MB_DB_DBNAME: ${PG_DB:-postgres}
+      MB_DB_DBNAME: metabase_db
       MB_DB_PORT:   "5432"
       MB_DB_USER:   ${PG_USER:-odoo}
       MB_DB_PASS:   ${PG_PASSWORD:-odoo}
       MB_DB_HOST:   postgres
     volumes:
       - metabase_data:/metabase-data
-      - ./data/init/init_metabase.sql:/docker-entrypoint-initdb.d/init_metabase.sql
+      - ./data/init:/docker-entrypoint-initdb.d:ro
   
   python_etl:
     build: .

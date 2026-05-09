@@ -5,15 +5,30 @@ import os
 from clickhouse_driver import Client
 
 # Konfigurasi dari Environment Variables (sesuai file .env Anda)
-PG_HOST = os.getenv('PG_HOST', 'kba7_postgres')  # Gunakan 'kba7_postgres' jika di dalam docker
+PG_HOST = os.getenv('PG_HOST', 'kba7_postgres')  # Gunakan 'trialproyek_postgres' jika di dalam docker
 PG_PORT = os.getenv('PG_PORT', '5432')       # Port luar 5433, port dalam 5432
 PG_DB = os.getenv('PG_DB', 'odoo')
 PG_USER = os.getenv('PG_USER', 'odoo')
 PG_PASS = os.getenv('PG_PASSWORD', 'odoo')
 
-CH_HOST = os.getenv('CH_HOST', 'kba7_clickhouse')  # Gunakan 'kba7_clickhouse' jika di dalam docker
+CH_HOST = os.getenv('CH_HOST', 'kba7_clickhouse')  # Gunakan 'trialproyek_clickhouse' jika di dalam docker
 CH_USER = os.getenv('CH_USER', 'default')
 CH_PASS = os.getenv('CH_PASSWORD', '')
+
+def connect_with_retry():
+    while True:
+        try:
+            conn = psycopg2.connect(
+                host=os.getenv('PG_HOST'),
+                database=os.getenv('PG_DB'),
+                user=os.getenv('PG_USER'),
+                password=os.getenv('PG_PASSWORD'),
+                port=5432
+            )
+            return conn
+        except psycopg2.OperationalError:
+            print("Postgres belum siap, mencoba lagi dalam 5 detik...")
+            time.sleep(5)
 
 def ada_data_baru():
     # Daftar 12 tabel Odoo Anda
@@ -43,6 +58,7 @@ def ada_data_baru():
                 max_ch = 0
 
             if max_pg > max_ch:
+                print("\n" + "="*40 + "\n")
                 print(f"Data baru ditemukan pada tabel: {tabel} (PG: {max_pg}, CH: {max_ch})")
                 return True # Langsung return True jika ada satu saja yang beda
         
@@ -55,42 +71,103 @@ def ada_data_baru():
         if pg_conn: pg_conn.close()
 
 def run_pipeline():
-    print("\n" + "="*30)
+    print("\n" + "="*40 + "\n")
     print("--- Memulai Pipeline ---")
     try:
         # Jalankan script Ingestion
-        print("Menjalankan Ingestion...")
+        text = "Menjalankan Ingestion..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["python", "scripts_python/extract_to_bronze.py"], check=True)
         
         # Jalankan DBT Silver
-        print("Menjalankan DBT Silver...")
+        text = "Menjalankan DBT Silver..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+        
         subprocess.run(["dbt", "run", "--profiles-dir", ".", "--select", "tag:silver"], cwd="etl_kba", check=True)
 
         # Quality test 1/2
-        print("Menjalankan DBT Test 1/2...")
-        subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "silver"], cwd="etl_kba", check=True)
+        text = "Menjalankan DBT Test 1/2..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
+        subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "silver", "--exclude", "source:external_python"], cwd="etl_kba", check=True)
 
         # Jalankan script K-Means
-        print("Menjalankan Script KMeans Clustering...")
+        text = "Menjalankan Script KMeans Clustering..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["python", "scripts_python/kmeans_cluster_movement_bulanan.py"], check=True)
 
         # Quality test 2/2
-        print("Menjalankan DBT Test 2/2...")
+        text = "Menjalankan DBT Test 2/2..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["dbt", "test", "--profiles-dir", ".", "--select", "source:external_python.silver_slow_moving_bulanan"], cwd="etl_kba", check=True)
 
         # Jalankan DBT Gold
-        print("Menjalankan DBT Gold...")
+        text = "Menjalankan DBT Gold..."
+        width = len(text) + 6
+
+        print("\n")
+        print("#" * (width + 2))
+        print("#" + " " * (width) + "#") 
+        print(f"#   {text}   #")               
+        print("#" + " " * (width) + "#") 
+        print("#" * (width + 2))
+        print("\n")
+
         subprocess.run(["dbt", "run", "--profiles-dir", ".", "--select", "tag:gold"], cwd="etl_kba", check=True)
         
-        print("--- Pipeline Berhasil Diselesaikan ---")
+        print("\n--- Pipeline Berhasil Diselesaikan ---")
     except subprocess.CalledProcessError as e:
         print(f"Pipeline gagal pada tahap tertentu: {e}")
-    print("="*30 + "\n")
+    print("="*40 + "\n")
+    print("Menunggu perubahan data...\n")
 
 if __name__ == "__main__":
+    db_connection = connect_with_retry()
     print("Scheduler aktif")
     while True:
-        print("Menunggu perubahan data...")
         try:
             if ada_data_baru():
                 run_pipeline()
@@ -98,5 +175,6 @@ if __name__ == "__main__":
                 print(f"[{time.strftime('%H:%M:%S')}] Data masih sama. Menunggu...")
         except Exception as e:
             print(f"Error Utama: {e}")
+            db_connection = connect_with_retry()
         
-        time.sleep(20) # Cek setiap 5 menit
+        time.sleep(20) # Cek setiap 20 detik

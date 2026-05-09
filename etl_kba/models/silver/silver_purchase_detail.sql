@@ -5,7 +5,6 @@ WITH po_header AS (
         toInt32OrNull(toString(id)) AS id_purchase,
         name AS nomor_po,
         partner_id AS id_vendor,
-        -- Menggunakan toDateTime64OrNull sesuai standar Anda sebelumnya
         toDateTime64OrNull(toString(date_order)) AS tanggal_transaksi,
         state AS status_transaksi
     FROM kba_bronze.purchase_order
@@ -21,11 +20,9 @@ po_line AS (
     FROM kba_bronze.purchase_order_line
 ),
 
--- Jembatan untuk mendapatkan Nama dari Template via Variant
 products_lookup AS (
     SELECT 
         toInt32OrNull(toString(pp.id)) AS id_produk,
-        -- Nama aslinya ada di Template
         extract(pt.name, '\'en_US\': \'([^/]+)\'') AS nama_produk
     FROM kba_bronze.product_product pp
     LEFT JOIN kba_bronze.product_template pt ON pp.product_tmpl_id = pt.id
