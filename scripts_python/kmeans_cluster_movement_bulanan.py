@@ -75,17 +75,17 @@ for bulan, group in df.groupby("snapshot_date"):
     temp_group = group.copy()
 
     # Pisahkan produk aktif dan mati
+    # 1. Produk dengan transaksi (Masuk Clustering)
     active_mask = temp_group["frekuensi_transaksi"] > 0
     df_active = temp_group[active_mask].copy()
 
-    oos_mask = (~active_mask) & (temp_group["stok_akhir"] <= 0)
-    df_oos = temp_group[oos_mask].copy()
-
+    # 2. Produk TANPA transaksi tapi ADA STOK (Ini Slow Moving asli Anda)
     dead_mask = (~active_mask) & (temp_group["stok_akhir"] > 0)
     df_dead = temp_group[dead_mask].copy()
-    # Saran Perubahan di Python
-# Produk benar-benar 'dead' jika tidak ada transaksi DAN tidak ada stok
-    # df_dead = temp_group[(temp_group["frekuensi_transaksi"] == 0) & (temp_group["jeda_hari_dari_transaksi_terakhir"] > 90)]
+
+    # 3. Produk TANPA transaksi dan TANPA STOK (Out of Stock / Inactive)
+    oos_mask = (~active_mask) & (temp_group["stok_akhir"] <= 0)
+    df_oos = temp_group[oos_mask].copy()
 
     if len(df_active) >= 3:
         X = df_active[feature_cols].fillna(0.0)
@@ -113,7 +113,7 @@ for bulan, group in df.groupby("snapshot_date"):
     
     # Beri label untuk kategori non-aktif
     df_oos["cluster_id"] = -3
-    df_oos["demand_segment"] = "out_of_stock"
+    df_oos["demand_segment"] = "no_sales_and_stock"
 
     # produk mati
     df_dead["cluster_id"] = -2  # ID khusus untuk dead stock
@@ -160,7 +160,7 @@ def save_multi_period_plots(df_to_plot):
             "balanced_regular": "blue",
             "dead_stock": "red", # Warna kontras untuk barang mati
             "awaiting_more_sales": "grey",
-            "out_of_stock": "black"
+            "no_sales_and_stock": "black"
         }
         
         # 2. Gambar scatter plot
