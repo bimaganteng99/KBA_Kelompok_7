@@ -62,5 +62,5 @@ SELECT
     round(total_value, 2) AS nilai_stok
 FROM final_calculation
 -- Menggunakan filter untuk menghilangkan row kosong
-WHERE qty_on_hand != 0 OR total_value != 0
+-- WHERE qty_on_hand != 0 OR total_value != 0
 ORDER BY periode_bulan ASC, nilai_stok DESC

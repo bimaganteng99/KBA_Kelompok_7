@@ -31,7 +31,8 @@ SELECT
   total_qty_terjual_keluar,
   rata2_qty_per_transaksi,
   max_qty_per_transaksi,
-  jeda_hari_dari_transaksi_terakhir
+  jeda_hari_dari_transaksi_terakhir,
+  stok_akhir
 FROM {FEATURE_TABLE}
 """
 
@@ -40,7 +41,7 @@ data = ch.execute(query)
 cols = [
     "periode_bulan", "id_produk", "snapshot_date", "snapshot_type", "frekuensi_transaksi",
     "total_qty_terjual_keluar", "rata2_qty_per_transaksi",
-    "max_qty_per_transaksi", "jeda_hari_dari_transaksi_terakhir",
+    "max_qty_per_transaksi", "jeda_hari_dari_transaksi_terakhir", "stok_akhir"
 ]
 
 df = pd.DataFrame(data, columns=cols)
@@ -76,7 +77,15 @@ for bulan, group in df.groupby("snapshot_date"):
     # Pisahkan produk aktif dan mati
     active_mask = temp_group["frekuensi_transaksi"] > 0
     df_active = temp_group[active_mask].copy()
-    df_dead = temp_group[~active_mask].copy()
+
+    oos_mask = (~active_mask) & (temp_group["stok_akhir"] <= 0)
+    df_oos = temp_group[oos_mask].copy()
+
+    dead_mask = (~active_mask) & (temp_group["stok_akhir"] > 0)
+    df_dead = temp_group[dead_mask].copy()
+    # Saran Perubahan di Python
+# Produk benar-benar 'dead' jika tidak ada transaksi DAN tidak ada stok
+    # df_dead = temp_group[(temp_group["frekuensi_transaksi"] == 0) & (temp_group["jeda_hari_dari_transaksi_terakhir"] > 90)]
 
     if len(df_active) >= 3:
         X = df_active[feature_cols].fillna(0.0)
@@ -102,11 +111,15 @@ for bulan, group in df.groupby("snapshot_date"):
         df_active["cluster_id"] = -1
         df_active["demand_segment"] = "awaiting_more_sales"
     
+    # Beri label untuk kategori non-aktif
+    df_oos["cluster_id"] = -3
+    df_oos["demand_segment"] = "out_of_stock"
+
     # produk mati
     df_dead["cluster_id"] = -2  # ID khusus untuk dead stock
     df_dead["demand_segment"] = "dead_stock"
 
-    final_df_list.append(pd.concat([df_active, df_dead]))
+    final_df_list.append(pd.concat([df_active, df_oos, df_dead]))
 
 df_final = pd.concat(final_df_list)
 
@@ -146,7 +159,8 @@ def save_multi_period_plots(df_to_plot):
             "rare_bulk": "orange",
             "balanced_regular": "blue",
             "dead_stock": "red", # Warna kontras untuk barang mati
-            "awaiting_more_sales": "grey"
+            "awaiting_more_sales": "grey",
+            "out_of_stock": "black"
         }
         
         # 2. Gambar scatter plot

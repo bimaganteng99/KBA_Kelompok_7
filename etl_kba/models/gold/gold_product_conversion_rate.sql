@@ -26,11 +26,11 @@ product_metrics AS (
 )
 
 SELECT
-    m.periode_bulan,
-    m.id_produk,
+    m.periode_bulan as periode_bulan,
+    m.id_produk as id_produk,
     -- ambil nama produk dari silver_products
     extract(p.nama_produk, '\'en_US\': \'([^/]+)\'') AS nama_produk,
-    
+    sm.demand_segment,
     m.total_qty_quotation,
     m.total_nilai_quotation,
     m.total_qty_aktual,
@@ -41,4 +41,8 @@ SELECT
 
 FROM product_metrics m
 LEFT JOIN {{ ref('silver_products') }} p ON m.id_produk = p.id_produk
-ORDER BY periode_bulan DESC, conversion_rate_qty DESC
+LEFT JOIN {{ source('external_python', 'silver_slow_moving_bulanan') }} sm 
+    ON m.id_produk = sm.id_produk 
+    AND m.periode_bulan = sm.periode_bulan
+    AND sm.snapshot_type = 'Historical'
+ORDER BY m.periode_bulan DESC, conversion_rate_qty DESC

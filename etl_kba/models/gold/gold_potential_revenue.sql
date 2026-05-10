@@ -19,20 +19,44 @@ WITH quotation_lines AS (
     -- Filter hanya untuk penawaran yang belum jadi sales
     WHERE so.state IN ('draft', 'sent')
       AND toFloat64OrNull(toString(sol.product_uom_qty)) > 0
+),
+
+aggregated AS (
+    SELECT
+        periode_bulan,
+        id_produk,
+        status_transaksi,
+        sum(qty) AS total_qty_penawaran,
+        sum(subtotal_potensi) AS total_nilai_potensi,
+        count(DISTINCT id_order) AS jumlah_unique_quotation
+    FROM quotation_lines
+    GROUP BY 1, 2, 3
 )
 
-SELECT
-    periode_bulan,
-    id_produk,
-    status_transaksi,
-    sum(qty) AS total_qty_penawaran,
-    sum(subtotal_potensi) AS total_nilai_potensi,
-    count(DISTINCT id_order) AS jumlah_unique_quotation
-FROM quotation_lines
-GROUP BY 
-    periode_bulan, 
-    id_produk, 
-    status_transaksi
+SELECT 
+    a.*,
+    sm.demand_segment -- Ambil dari gold_slow_moving
+FROM aggregated a
+LEFT JOIN {{ source('external_python', 'silver_slow_moving_bulanan') }} sm 
+    ON a.id_produk = sm.id_produk 
+    AND a.periode_bulan = sm.periode_bulan
+    AND sm.snapshot_type = 'Historical'
 ORDER BY 
     periode_bulan DESC, 
     total_nilai_potensi DESC
+
+-- SELECT
+--     periode_bulan,
+--     id_produk,
+--     status_transaksi,
+--     sum(qty) AS total_qty_penawaran,
+--     sum(subtotal_potensi) AS total_nilai_potensi,
+--     count(DISTINCT id_order) AS jumlah_unique_quotation
+-- FROM quotation_lines
+-- GROUP BY 
+--     periode_bulan, 
+--     id_produk, 
+--     status_transaksi
+-- ORDER BY 
+--     periode_bulan DESC, 
+--     total_nilai_potensi DESC
