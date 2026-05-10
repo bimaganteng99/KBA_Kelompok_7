@@ -9,7 +9,7 @@ sources:
           - name: demand_segment
             tests:
               - accepted_values:
-                  values: ['frequent_small', 'rare_bulk', 'balanced_regular', 'dead_stock', 'awaiting_more_sales']
+                  values: ['frequent_small', 'rare_bulk', 'balanced_regular', 'dead_stock', 'awaiting_more_sales', 'no_sales_and_stock']
           - name: is_slow_moving_kpi
             tests:
               - accepted_values:
