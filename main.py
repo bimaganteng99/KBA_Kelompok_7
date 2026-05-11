@@ -4,14 +4,14 @@ import psycopg2
 import os
 from clickhouse_driver import Client
 
-# Konfigurasi dari Environment Variables (sesuai file .env Anda)
-PG_HOST = os.getenv('PG_HOST', 'trialproyek_postgres')  # Gunakan 'trialproyek_postgres' jika di dalam docker
-PG_PORT = os.getenv('PG_PORT', '5432')       # Port luar 5433, port dalam 5432
+# Konfigurasi dari Environment Variables
+PG_HOST = os.getenv('PG_HOST', 'kba7_postgres') 
+PG_PORT = os.getenv('PG_PORT', '5432')     
 PG_DB = os.getenv('PG_DB', 'odoo')
 PG_USER = os.getenv('PG_USER', 'odoo')
 PG_PASS = os.getenv('PG_PASSWORD', 'odoo')
 
-CH_HOST = os.getenv('CH_HOST', 'trialproyek_clickhouse')  # Gunakan 'trialproyek_clickhouse' jika di dalam docker
+CH_HOST = os.getenv('CH_HOST', 'kba7_clickhouse') 
 CH_USER = os.getenv('CH_USER', 'default')
 CH_PASS = os.getenv('CH_PASSWORD', '')
 
@@ -31,7 +31,6 @@ def connect_with_retry():
             time.sleep(5)
 
 def ada_data_baru():
-    # Daftar 12 tabel Odoo Anda
     daftar_tabel = ['sale_order', 'sale_order_line', 'purchase_order', 'purchase_order_line', 'stock_quant', 'stock_picking', 'stock_move', 'stock_move_line', 'product_product', 'product_template', 'stock_valuation_layer', 'stock_picking_type', 'res_partner'] 
     
     pg_conn = None
@@ -45,14 +44,14 @@ def ada_data_baru():
             # Cek Max ID di Postgres
             pg_cur.execute(f'SELECT MAX(id) FROM public."{tabel}"')
             res_pg = pg_cur.fetchone()[0]
-            # Paksa ke int, jika None (tabel kosong) maka 0
+            # ubah ke int, jika None (tabel kosong) maka 0
             max_pg = int(res_pg) if res_pg is not None else 0
 
             # Cek Max ID di Clickhouse
             try:
                 tabel_ch = f"{tabel}" 
                 ch_res = ch_client.execute(f"SELECT MAX(toUInt64(id)) FROM kba_bronze.{tabel_ch}")
-                # Paksa ke int, jika None atau error maka 0
+                # ubah ke int, jika None atau error maka 0
                 max_ch = int(ch_res[0][0]) if ch_res and ch_res[0][0] is not None else 0
             except Exception:
                 max_ch = 0

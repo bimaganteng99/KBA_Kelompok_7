@@ -19,7 +19,6 @@ quotation_data AS (
 
 achievement AS (
     SELECT 
-        -- gunakan COALESCE agar periode_bulan tidak NULL jika salah satu sisi kosong
         COALESCE(s.periode_bulan, q.periode_bulan) as periode_bulan,
         COALESCE(s.total_aktual_sales, 0) AS aktual_penjualan,
         COALESCE(q.total_quotation_value, 0) AS total_quotation,

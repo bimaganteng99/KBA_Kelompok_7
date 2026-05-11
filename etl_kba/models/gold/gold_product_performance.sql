@@ -13,6 +13,7 @@ inventory AS (
     SELECT
         id_produk,
         periode_bulanan as periode_bulan,
+        -- demand_segment,
         nilai_stok,
         is_slow_moving
     FROM {{ ref('gold_slow_moving') }}
@@ -33,10 +34,11 @@ base AS (
 )
 
 SELECT 
-    b.periode_bulan,
-    b.id_produk,
+    b.periode_bulan as periode_bulan,
+    b.id_produk as id_produk,
     -- menggunakan RegEx untuk mengambil teks di antara 'en_US': ' dan '
     extract(p.nama_produk, '\'en_US\': \'([^/]+)\'') AS nama_produk,
+    sm.demand_segment,
 
     COALESCE(b.total_sales, 0) AS total_sales,
     COALESCE(b.total_qty, 0) AS total_qty,
@@ -45,3 +47,7 @@ SELECT
 FROM base b
 LEFT JOIN {{ ref('silver_products') }} p
     ON b.id_produk = p.id_produk
+LEFT JOIN {{ source('external_python', 'silver_slow_moving_bulanan') }} sm 
+    ON b.id_produk = sm.id_produk 
+    AND b.periode_bulan = sm.periode_bulan
+    AND sm.snapshot_type = 'Historical'

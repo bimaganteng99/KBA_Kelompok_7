@@ -9,7 +9,7 @@ sources:
           - name: demand_segment
             tests:
               - accepted_values:
-                  values: ['frequent_small', 'rare_bulk', 'balanced_regular', 'dead_stock', 'unknown']
+                  values: ['frequent_small', 'rare_bulk', 'balanced_regular', 'dead_stock', 'awaiting_more_sales', 'no_sales_and_stock']
           - name: is_slow_moving_kpi
             tests:
               - accepted_values:
@@ -20,19 +20,30 @@ models:
       - name: id_produk
         tests: [not_null, unique]
 
-  - name: silver_inventory
+  - name: silver_inventory_monthly_clean
+    description: "Laporan saldo stok bulanan per produk hasil rekonstruksi dari mutasi (stock_move)."
     columns:
-      - name: id_stok
-        tests: [not_null, unique]
-      - name: id_produk
+      - name: periode_bulan
+        description: "Periode pencatatan dalam format YYYY-MM"
         tests:
           - not_null
-          - relationships:
-              arguments:
-                to: ref('silver_products')
-                field: id_produk
-      - name: jumlah_stok
-        tests: [not_null]
+          - dbt_utils.expression_is_true:
+              expression: "length(periode_bulan) = 7"
+
+      - name: internal_reference
+        description: "SKU atau referensi internal produk"
+        tests:
+          - not_null
+
+      - name: total_qty_on_hand
+        description: "Total saldo fisik di gudang internal"
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - periode_bulan
+            - internal_reference
 
   - name: silver_sales
     columns:
@@ -100,21 +111,7 @@ models:
                 field: id_produk
       - name: created_at
         tests: [not_null]
-      - name: remaining_value
-        tests: [not_null]
-
-  - name: silver_stock_value
-    columns:
-      - name: periode_bulan
-        tests: [not_null]
-      - name: id_produk
-        tests:
-          - not_null
-          - relationships:
-              arguments:
-                to: ref('silver_products')
-                field: id_produk
-      - name: nilai_stok
+      - name: value
         tests: [not_null]
 
   - name: silver_fitur_movement_bulanan
@@ -126,7 +123,7 @@ models:
               arguments:
                 to: ref('silver_products')
                 field: id_produk
-      - name: periode_bulan
+      - name: snapshot_date
         tests: [not_null]
       - name: frekuensi_transaksi
         tests: [not_null]

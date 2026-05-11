@@ -14,7 +14,12 @@ WITH product_spending AS (
 )
 
 SELECT 
-    *,
+    ps.*,
+    sm.demand_segment,
     -- Membuat ranking berdasarkan pengeluaran terbesar per bulan
     rank() OVER (PARTITION BY periode_bulan ORDER BY total_pengeluaran_produk DESC) AS rank_pengeluaran
-FROM product_spending
+FROM product_spending ps
+LEFT JOIN {{ source('external_python', 'silver_slow_moving_bulanan') }}  sm 
+    ON ps.id_produk = sm.id_produk 
+    AND ps.periode_bulan = sm.periode_bulan
+    AND sm.snapshot_type = 'Historical'
