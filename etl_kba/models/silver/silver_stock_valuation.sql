@@ -28,4 +28,3 @@ SELECT
 FROM raw
 WHERE id IS NOT NULL AND id != ''
   AND product_id IS NOT NULL AND product_id != ''
-  -- AND remaining_value IS NOT NULL

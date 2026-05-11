@@ -4,19 +4,17 @@ from clickhouse_driver import Client
 import warnings
 import os
 
-# Jika dijalankan di Windows manual, dia akan pakai localhost:5433
-# Jika dijalankan di Docker, Docker akan 'menyuntikkan' kba7_postgres:5432
+# di Windows manual, dia akan pakai localhost:5433
+# di Docker, pake kba7_postgres:5432
 PG_HOST = os.getenv('PG_HOST', 'localhost')
 PG_PORT = os.getenv('PG_PORT', '5433') 
 PG_DB   = os.getenv('PG_DB', 'odoo')
 PG_USER = os.getenv('PG_USER', 'odoo')
 PG_PASS = os.getenv('PG_PASSWORD', 'odoo')
 
-# Begitu juga untuk Clickhouse
 CH_HOST = os.getenv('CH_HOST', 'localhost')
 CH_PORT = os.getenv('CH_PORT', '9000')
 
-# Matikan warning Pandas agar terminal tetap bersih
 warnings.filterwarnings('ignore')
 
 # Koneksi
@@ -28,7 +26,7 @@ ch_client.execute('CREATE DATABASE IF NOT EXISTS kba_bronze')
 
 # Ingestion
 def sedot_ke_clickhouse(df, nama_tabel):
-    # Paksa setiap sel tanpa ampun jadi String. Kalau kosong (NaN), jadikan teks kosong ""
+    # ubah setiap sel jadi String. Kalau kosong (NaN), jadikan teks kosong ""
     for col in df.columns:
         df[col] = df[col].apply(lambda x: "" if pd.isna(x) else str(x))
         

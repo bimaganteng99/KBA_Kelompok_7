@@ -20,7 +20,7 @@ ch = Client(host=CH_HOST, port=CH_PORT, user="default", password="")
 FEATURE_TABLE = "kba_silver.silver_fitur_movement_bulanan"
 OUT_TABLE = "kba_silver.silver_slow_moving_bulanan"
 
-# Ambil feature data dari silver dengan kolom snapshot_type
+# Ambil feature data dari silver
 query = f"""
 SELECT
   periode_bulan,
@@ -79,11 +79,11 @@ for bulan, group in df.groupby("snapshot_date"):
     active_mask = temp_group["frekuensi_transaksi"] > 0
     df_active = temp_group[active_mask].copy()
 
-    # 2. Produk TANPA transaksi tapi ADA STOK (Ini Slow Moving asli Anda)
+    # 2. Produk TANPA transaksi tapi ADA STOK
     dead_mask = (~active_mask) & (temp_group["stok_akhir"] > 0)
     df_dead = temp_group[dead_mask].copy()
 
-    # 3. Produk TANPA transaksi dan TANPA STOK (Out of Stock / Inactive)
+    # 3. Produk TANPA transaksi dan TANPA STOK
     oos_mask = (~active_mask) & (temp_group["stok_akhir"] <= 0)
     df_oos = temp_group[oos_mask].copy()
 
@@ -93,7 +93,6 @@ for bulan, group in df.groupby("snapshot_date"):
         kmeans = KMeans(n_clusters=3, random_state=42, n_init="auto")
         df_active["cluster_id"] = kmeans.fit_predict(X_scaled)
         
-        # Penamaan Segment Berdasarkan Profil di bulan tersebut
         prof = df_active.groupby("cluster_id")[feature_cols].mean()
         freq_rank = prof["frekuensi_transaksi"].rank(method="dense")
         avg_rank = prof["rata2_qty_per_transaksi"].rank(method="dense")
@@ -116,7 +115,7 @@ for bulan, group in df.groupby("snapshot_date"):
     df_oos["demand_segment"] = "no_sales_and_stock"
 
     # produk mati
-    df_dead["cluster_id"] = -2  # ID khusus untuk dead stock
+    df_dead["cluster_id"] = -2
     df_dead["demand_segment"] = "dead_stock"
 
     final_df_list.append(pd.concat([df_active, df_oos, df_dead]))
@@ -134,7 +133,6 @@ def save_multi_period_plots(df_to_plot):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    # Pastikan tipe data string untuk penamaan file yang aman
     plot_data['periode_str'] = plot_data['periode_bulan'].astype(str)
 
     def add_jitter(series):
@@ -142,12 +140,10 @@ def save_multi_period_plots(df_to_plot):
     
     plot_data['x_jittered'] = add_jitter(plot_data['frekuensi_transaksi'])
     plot_data['y_jittered'] = add_jitter(plot_data['rata2_qty_per_transaksi'])
-    
-    # Set gaya visualisasi
+
     sns.set_theme(style="whitegrid")
 
     # Grouping berdasarkan Periode dan Snapshot
-    # Ini otomatis hanya mengambil kombinasi yang ADA datanya
     grouped = plot_data.groupby(['periode_str', 'snapshot_type'])
 
     for (periode, snapshot), group_df in grouped:
@@ -158,7 +154,7 @@ def save_multi_period_plots(df_to_plot):
             "frequent_small": "green",
             "rare_bulk": "orange",
             "balanced_regular": "blue",
-            "dead_stock": "red", # Warna kontras untuk barang mati
+            "dead_stock": "red",
             "awaiting_more_sales": "grey",
             "no_sales_and_stock": "black"
         }
@@ -186,19 +182,19 @@ def save_multi_period_plots(df_to_plot):
         plt.axvline(0, color='red', linestyle='--', alpha=0.3)
         plt.axhline(0, color='red', linestyle='--', alpha=0.3)
         
-        # 3. Kustomisasi Judul dan Label
+        # 3. Judul dan Label
         plt.title(f"Clustering: {periode} ({snapshot})", fontsize=14)
         plt.xlabel("Freq Transaksi")
         plt.ylabel("Avg Qty per Transaksi")
         plt.legend(title="Legend", bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.tight_layout()
         
-        # 4. Buat nama file yang unik dan bersih
+        # 4. Buat nama file
         # Contoh: clustering_Maret_Historical.png
         clean_filename = f"clustering_{periode}_{snapshot}.png".replace(" ", "_")
         filepath = os.path.join(output_dir, clean_filename)
         
-        # 5. Simpan dan Tutup (agar memori tidak penuh)
+        # 5. Simpan dan Tutup
         plt.savefig(filepath, dpi=300, bbox_inches='tight')
         plt.close()
         
@@ -208,7 +204,6 @@ def save_multi_period_plots(df_to_plot):
 save_multi_period_plots(df_final)
 
 # Tulis output ke ClickHouse
-# Tambahkan snapshot_type String ke skema tabel
 ch.execute(f"""
     CREATE TABLE IF NOT EXISTS {OUT_TABLE} (
       periode_bulan Date,
@@ -227,9 +222,8 @@ ch.execute(f"""
     ) ENGINE = MergeTree() ORDER BY (snapshot_date, id_produk)
 """)
 
-ch.execute(f"TRUNCATE TABLE {OUT_TABLE}") # Hapus isi tapi simpan struktur
+ch.execute(f"TRUNCATE TABLE {OUT_TABLE}")
 
-# SEHARUSNYA (Lengkap sesuai skema tabel)
 records = df_final[[
     "periode_bulan", "snapshot_date", "snapshot_type", "id_produk", "cluster_id", "demand_segment", 
     "is_slow_moving_kpi", "kpi_reason", "frekuensi_transaksi", "total_qty_terjual_keluar", 

@@ -17,14 +17,12 @@ inventory AS (
         nilai_stok,
         is_slow_moving
     FROM {{ ref('gold_slow_moving') }}
-    -- WHERE snapshot_type = 'Historical'
 ),
 
 base AS (
     SELECT 
         COALESCE(s.id_produk, i.id_produk) AS id_produk,
         COALESCE(s.periode_bulan, i.periode_bulan) AS periode_bulan, 
-        -- i.demand_segment,
         s.total_sales,
         s.total_qty,
         i.nilai_stok,

@@ -39,10 +39,8 @@ product_monthly_grid AS (
 final_calculation AS (
     SELECT 
         grid.start_of_month AS periode_bulan,
-        -- grid.end_of_month,
         grid.id_produk,
         grid.nama_produk,
-        -- Menggunakan conditional aggregation untuk menghindari error Join
         SUM(IF(vl.created_date <= grid.end_of_month, vl.quantity, 0)) AS qty_on_hand,
         SUM(IF(vl.created_date <= grid.end_of_month, vl.value, 0)) AS total_value
     FROM product_monthly_grid grid
@@ -61,6 +59,4 @@ SELECT
     round(qty_on_hand, 2) AS qty,
     round(total_value, 2) AS nilai_stok
 FROM final_calculation
--- Menggunakan filter untuk menghilangkan row kosong
--- WHERE qty_on_hand != 0 OR total_value != 0
 ORDER BY periode_bulan ASC, nilai_stok DESC

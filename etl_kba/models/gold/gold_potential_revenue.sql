@@ -8,7 +8,7 @@ WITH quotation_lines AS (
         toFloat64OrNull(toString(sol.product_uom_qty)) AS qty,
         toFloat64OrNull(toString(sol.price_subtotal)) AS subtotal_potensi,
         
-        -- Mengambil status dan tanggal dari sale_order (Header)
+        -- Mengambil status dan tanggal dari sale_order
         so.state AS status_transaksi,
         toDateTime64OrNull(toString(so.date_order)) AS tanggal_quotation,
         toStartOfMonth(toDateTime64OrNull(toString(so.date_order))) AS periode_bulan
@@ -44,19 +44,3 @@ LEFT JOIN {{ source('external_python', 'silver_slow_moving_bulanan') }} sm
 ORDER BY 
     periode_bulan DESC, 
     total_nilai_potensi DESC
-
--- SELECT
---     periode_bulan,
---     id_produk,
---     status_transaksi,
---     sum(qty) AS total_qty_penawaran,
---     sum(subtotal_potensi) AS total_nilai_potensi,
---     count(DISTINCT id_order) AS jumlah_unique_quotation
--- FROM quotation_lines
--- GROUP BY 
---     periode_bulan, 
---     id_produk, 
---     status_transaksi
--- ORDER BY 
---     periode_bulan DESC, 
---     total_nilai_potensi DESC

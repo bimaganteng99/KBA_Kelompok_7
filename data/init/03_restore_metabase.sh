@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# Cek apakah database metabase_db sudah ada sebelum mencoba membuatnya
 DB_EXISTS=$(psql -U "$POSTGRES_USER" -d "postgres" -tAc "SELECT 1 FROM pg_database WHERE datname='metabase_db'")
 
 if [ "$DB_EXISTS" != "1" ]; then
@@ -13,7 +12,6 @@ fi
 
 echo "Memulai restore metadata Metabase..."
 if [ -f /dumps/metabase_new.sql ]; then
-    # Menggunakan psql untuk restore ke database metabase_db
     psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "metabase_db" -f /dumps/metabase_new.sql
     echo "Restore Metabase selesai!"
 else
