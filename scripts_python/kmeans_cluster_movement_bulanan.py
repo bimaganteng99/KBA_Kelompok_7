@@ -94,14 +94,20 @@ for bulan, group in df.groupby("snapshot_date"):
         df_active["cluster_id"] = kmeans.fit_predict(X_scaled)
         
         prof = df_active.groupby("cluster_id")[feature_cols].mean()
-        freq_rank = prof["frekuensi_transaksi"].rank(method="dense")
         avg_rank = prof["rata2_qty_per_transaksi"].rank(method="dense")
         
+        # Cari tahu cluster_id mana yang memiliki rata-rata frekuensi tertinggi dan terendah
+        highest_freq_cid = prof["frekuensi_transaksi"].idxmax()
+        lowest_freq_cid = prof["frekuensi_transaksi"].idxmin()
+
+        # Cari tahu cluster_id untuk rata-rata qty terbanyak
+        highest_avg_qty_cid = prof["rata2_qty_per_transaksi"].idxmax()
+
         seg_map = {}
         for cid in prof.index:
-            if freq_rank[cid] == freq_rank.max() and avg_rank[cid] == avg_rank.min():
+            if cid == highest_freq_cid:
                 seg_map[int(cid)] = "frequent_small"
-            elif freq_rank[cid] == freq_rank.min() and avg_rank[cid] == avg_rank.max():
+            elif cid == highest_avg_qty_cid:
                 seg_map[int(cid)] = "rare_bulk"
             else:
                 seg_map[int(cid)] = "balanced_regular"
@@ -190,11 +196,9 @@ def save_multi_period_plots(df_to_plot):
         plt.tight_layout()
         
         # 4. Buat nama file
-        # Contoh: clustering_Maret_Historical.png
         clean_filename = f"clustering_{periode}_{snapshot}.png".replace(" ", "_")
         filepath = os.path.join(output_dir, clean_filename)
         
-        # 5. Simpan dan Tutup
         plt.savefig(filepath, dpi=300, bbox_inches='tight')
         plt.close()
         
@@ -228,7 +232,7 @@ records = df_final[[
     "periode_bulan", "snapshot_date", "snapshot_type", "id_produk", "cluster_id", "demand_segment", 
     "is_slow_moving_kpi", "kpi_reason", "frekuensi_transaksi", "total_qty_terjual_keluar", 
     "rata2_qty_per_transaksi", "max_qty_per_transaksi", "jeda_hari_dari_transaksi_terakhir"
-]].to_dict("records")
+]].values.tolist()
 
 ch.execute(f"INSERT INTO {OUT_TABLE} VALUES", records)
 
